@@ -3,3 +3,6 @@ alias ll='ls -lh'
 alias cc='cucumber --drb'
 alias cd-cc='cd ~/dev/code/ccap'
 alias cd-ccc='cd ~/dev/code/ccap-city'
+alias cd-cci='cd ~/dev/code/ccap-improvements'
+
+alias ri='ri -f ansi'

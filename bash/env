@@ -1,3 +1,4 @@
 export EDITOR="pico"
-
-
+export LESS="-R"
+export KNS_SVN="https://subversion.assembla.com/svn/ccap"
+export PATH=$PATH:$HOME/local/dotfiles/bin
