@@ -5,7 +5,7 @@ require 'yaml'
 require 'active_support'
 
 if ARGV.length < 1
-  puts "Usage: $0 <rails environment>"
+  puts "Usage: #{File.basename($0)} <rails environment>"
   exit
 end
 
