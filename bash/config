@@ -32,4 +32,4 @@ bakcyn='\e[46m'   # Cyan
 bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
-export PS1="\[$txtcyn\]\w\[$bldwht\]\$(vcprompt)\[$txtrst\]\[$txtcyn\]\n\u%\[$txtrst\] "
+export PS1="\[$txtpur\]\w\[$bldwht\]\$(vcprompt)\[$txtrst\]\[$txtpur\]\n\u%\[$txtrst\] "

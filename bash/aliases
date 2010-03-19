@@ -6,3 +6,4 @@ alias cd-ccc='cd ~/dev/code/ccap-city'
 alias cd-cci='cd ~/dev/code/ccap-improvements'
 
 alias ri='ri -f ansi'
+alias cd-gems='cd /Library/Ruby/Gems/1.8/gems'
