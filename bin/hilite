@@ -40,7 +40,7 @@ end
 
 def highlight(ln)
   unless ARGV[1].nil?
-    stripped = strip_ascii_escapes(ln)
+    stripped = strip_ascii_escapes(ln.chop)
     re = Regexp.new(ARGV[1])
     if m = re.match(stripped)
       hilited = stripped.gsub(m[0], "#{BLDBLU}#{m[0]}#{TXTRST}#{BAKYLW}")
