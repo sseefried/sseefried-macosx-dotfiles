@@ -1,0 +1,2 @@
+ln -s ~/.bashrc /path/to/bash_profile
+ln -s ~/.bash_profile /path/to/bashrc
