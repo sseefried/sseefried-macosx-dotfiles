@@ -33,3 +33,7 @@ bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
 export PS1="\[$txtpur\]\w\[$bldwht\]\$(vcprompt)\[$txtrst\]\[$txtpur\]\n\u%\[$txtrst\] "
+
+setopt prompt_subst
+# For zsh
+export PROMPT='$(print "%{$txtpur%}%~"%{$bldwht%})$(vcprompt)$(print "\n%{$txtpur%}%n%%%{$txtrst%} " )'
