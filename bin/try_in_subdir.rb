@@ -1,6 +1,7 @@
 module TryInSubdir
 
   def run(dir, cmd)
+    current = Dir.pwd
     until File.directory?(dir) || Dir.pwd == '/'
       Dir.chdir("..")
     end
@@ -9,6 +10,7 @@ module TryInSubdir
     else
       system(cmd) 
     end
+    Dir.chdir(current)
   end
 
 end
