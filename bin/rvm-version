@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+#
+# rvm-version shows the RVM version and gemset if you run it in the root directory or subdirectories of a 
+# Rails project
+#
+
+
+
+require File.dirname(__FILE__) + '/shell_helpers.rb'
+
+if ShellHelpers::in_rails_project?
+  params = {}
+  rvm_default = false
+  ruby_config = false
+  IO.popen("rvm info") do |f|
+    while !f.eof?
+      s = f.gets 
+      ruby_config = true if s =~ /^ruby:/
+      if ruby_config && s =~ /^\s*version:.*"(.*)"/
+        params[:version] = $1
+      end
+      if s =~ /gemset:.*"(.*)"/
+        params[:gemset] = $1
+        rvm_default = true if $1.length == 0
+      end
+    end
+  end
+  if rvm_default 
+    printf "[RVM: default]\x0a\x0d"
+  else
+    printf "[RVM: %s@%s]\x0a\x0d" % [ params[:version], params[:gemset], 10 ]
+  end
+end
+
