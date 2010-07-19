@@ -2,4 +2,6 @@
 require "#{File.dirname(__FILE__)}/try_in_subdir"
 include TryInSubdir
 
-run("script", "script/console")
+
+
+run("script", "script/console #{ARGV.join(" ")}")
