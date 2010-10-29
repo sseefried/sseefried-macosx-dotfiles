@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+#
+# This script is used to "open" things from the command line of Mac OS X
+# I mainly use it for opening books and cheat-sheet images in subdirectories of the 
+# $HOME/dev directory
+#
+
+if ARGV.length != 1
+  puts "Usage: #{File.basename($0)} <regular expression>"
+  exit 1
+end
+
+EXTENSIONS = ["pdf", "jpg", "png", "jpeg", "gif"]
+
+re = Regexp.new(ARGV[0])
+
+EXTENSIONS.each do |ext|
+  Dir.glob("#{ENV['HOME']}/dev/**/*.#{ext}").each do |f|
+    if f =~ re
+      puts "Opening `#{f}'"
+      system(%Q{open "#{f}"})
+    end
+  end
+end
