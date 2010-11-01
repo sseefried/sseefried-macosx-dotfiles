@@ -1,9 +1,0 @@
-export GEM_HOME=/Library/Ruby/Gems/1.8
-export PATH=$PATH:/opt/local/bin:/usr/local/mysql/bin:$HOME/local/bin:$HOME/local/bin/scripts
-export PATH=$PATH:/usr/local/scala-2.7.7.final/bin
-export PATH=$PATH:/usr/local/pgsql/bin
-export PATH=~/dev/code/sseefried-scripts:$PATH
-# Turns off SSL for local development
-export CCAP_LOCAL_STAGING=yes
-export CCAP_LOCAL_PRODUCTION=yes
-export CCAP_SVN=https://subversion.assembla.com/svn/ccap
