@@ -32,8 +32,8 @@ bakcyn='\e[46m'   # Cyan
 bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
-export PS1="\[$txtpur\]\w\[$bldwht\]\$(vcprompt)\[$txtrst\]\[$txtpur\]\n\u%\[$txtrst\] "
+export PS1="\[$txtpur\]\w\[$bldwht\]\[$txtrst\]\[$txtpur\]\n\u%\[$txtrst\] "
 
-setopt prompt_subst
+# setopt prompt_subst
 # For zsh
-export PROMPT='$(print "%{$txtpur%}%~"%{$bldwht%})$(vcprompt)$(print "\n%{$txtpur%}%n%%%{$txtrst%} " )'
+export PROMPT='$(print "%{$txtpur%}%~"%{$bldwht%})$(print "\n%{$txtpur%}%n%%%{$txtrst%} " )'

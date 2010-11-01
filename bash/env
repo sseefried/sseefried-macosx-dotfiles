@@ -1,5 +1,5 @@
 export EDITOR="mate -w"
 export SVN_EDITOR="mate -w"
 export LESS="-R"
-export KNS_SVN="https://subversion.assembla.com/svn/ccap"
 export PATH=$PATH:$HOME/local/dotfiles/bin:$HOME/dev/code/ccap_bin_files
+export PATH=$PATH:$HOME/local/bin:$HOME/local/bin/scripts

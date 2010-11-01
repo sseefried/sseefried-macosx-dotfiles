@@ -1,4 +1,4 @@
-alias ls='/opt/local/bin/gls --color'
+# alias ls='/opt/local/bin/gls --color'
 alias ll='ls -lh'
 alias cc='cucumber --drb'
 alias cd-cc='cd ~/dev/code/ccap'
