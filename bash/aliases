@@ -1,13 +1,6 @@
 # alias ls='/opt/local/bin/gls --color'
 alias ll='ls -lh'
-alias cc='cucumber --drb'
-alias cd-cc='cd ~/dev/code/ccap'
-alias cd-ccc='cd ~/dev/code/ccap-city'
-alias cd-cci='cd ~/dev/code/ccap-improvements'
-alias cd-ccg='cd ~/dev/code/ccap-grafico'
-
 alias ri='ri -f ansi'
-alias cd-gems='cd /Library/Ruby/Gems/1.8/gems'
 alias sd='svn diff | less'
 alias sdp='svn diff -r PREV | less'
 alias gd='git diff'
