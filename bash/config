@@ -32,8 +32,8 @@ bakcyn='\e[46m'   # Cyan
 bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
-export PS1="\[$txtpur\]\w\[$bldwht\]\[$txtrst\]\[$txtpur\]\n\u%\[$txtrst\] "
+function parse_git_branch {
+  git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/'
+}
 
-# setopt prompt_subst
-# For zsh
-export PROMPT='$(print "%{$txtpur%}%~"%{$bldwht%})$(print "\n%{$txtpur%}%n%%%{$txtrst%} " )'
+export PS1="\[$bldgrn\]\w\[$bldylw\]\$(parse_git_branch)\[$txtrst\]\[$bldgrn\]\n\u%\[$txtrst\] "

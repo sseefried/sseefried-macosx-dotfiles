@@ -12,3 +12,11 @@ alias sd='svn diff | less'
 alias sdp='svn diff -r PREV | less'
 alias gd='git diff'
 alias gds='git diff --staged'
+
+if [ -f /usr/local/bin/ls ]; then
+  alias ls='/usr/local/bin/ls --color=always'
+fi
+
+alias mate-config="mate ~/local/dotfiles/bash/$MACHINE/config"
+alias mate-env="mate ~/local/dotfiles/bash/$MACHINE/env"
+alias mate-aliases="mate ~/local/dotfiles/bash/$MACHINE/aliases"

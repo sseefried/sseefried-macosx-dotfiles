@@ -1,0 +1,1 @@
+export PS1="\[$bldgrn\]\w\[$bldylw\]\$(parse_git_branch)\[$txtrst\]\[$bldgrn\]\n\u%\[$txtrst\] "
