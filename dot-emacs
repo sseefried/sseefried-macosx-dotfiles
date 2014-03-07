@@ -1,0 +1,35 @@
+;;(add-to-list 'load-path "~/local/dotfiles/emacs.d/icicles")
+;;(linum-mode)
+
+;;(require 'ido)
+;;(ido-mode 1)
+;;(setq ido-enable-flex-matching t)
+
+;;(setq ibuffer-shrink-to-minimum-size t)
+;;(setq ibuffer-always-show-last-buffer nil)
+;;(setq ibuffer-sorting-mode 'recency)
+;;(setq ibuffer-use-header-line t)
+;; (global-set-key [(f12)] 'ibuffer)
+
+
+
+
+;; (require 'whitespace)
+;; (setq whitespace-line-column 100)
+;; (setq whitespace-style (quote (face tabs trailing lines space-before-tab newline
+;;    space-after-tab tab-mark newline-mark)))
+
+;; (setq whitespace-display-mappings
+;;          '((newline-mark ?\n   [?¬ ?\n] [?$ ?\n]) ; end-of-line
+;;          (tab-mark ?\t   [?» ?\t] [?\\ ?\t]) ; tab mark
+;;           ))
+
+;; (setq whitespace-tab (quote whitespace-newline))
+
+;; (global-whitespace-mode 1)
+
+;; ;; Binds command-/ to comment-or-uncomment-region. Just like TextMate
+;; (define-key osx-key-mode-map (kbd "A-/") 'comment-or-uncomment-region-or-line)
+
+;; (add-to-list 'auto-mode-alist '("\\.outline" . outline-mode))
+;; (add-hook 'outline-mode-hook (lambda () (auto-fill-mode t) (set-fill-column 100)))

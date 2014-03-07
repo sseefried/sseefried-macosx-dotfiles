@@ -9,15 +9,15 @@
 
 require File.dirname(__FILE__) + '/shell_helpers.rb'
 
-if ShellHelpers::in_rails_project?
+if ShellHelpers::has_rvmrc?
   params = {}
   rvm_default = false
   ruby_config = false
-  IO.popen("rvm info") do |f|
+  IO.popen("rvm info 2>/dev/null") do |f|
     while !f.eof?
       s = f.gets
-      ruby_config = true if s =~ /^ruby:/
-      if ruby_config && s =~ /^\s*version:.*"(.*)"/
+      ruby_config = true if (s =~ /^\s*ruby:/)
+      if ruby_config && (s =~ /^\s*version:.*"([^p]*).*"/)
         params[:version] = $1
       end
       if s =~ /gemset:.*"(.*)"/
@@ -27,9 +27,9 @@ if ShellHelpers::in_rails_project?
     end
   end
   if rvm_default
-    printf "[default]"
+    printf " [default]"
   else
-    printf "[%s@%s]" % [ params[:version], params[:gemset], 10 ]
+    printf " [%s@%s]" % [ params[:version], params[:gemset], 10 ]
   end
 end
 

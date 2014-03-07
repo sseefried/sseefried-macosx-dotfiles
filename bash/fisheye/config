@@ -1,1 +1,10 @@
-export PS1="\[$bldgrn\]\w\[$bldylw\]\$(parse_git_branch)\[$txtrst\]\[$bldgrn\]\n\u%\[$txtrst\] "
+export RVM_VERSION=`echo ~/local/dotfiles/bin/rvm-version`
+export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(__git_ps1)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
+
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+if [ -f /opt/local/etc/bash_completion ]; then
+      . /opt/local/etc/bash_completion
+fi
+
+source /usr/local/git/contrib/completion/git-completion.bash

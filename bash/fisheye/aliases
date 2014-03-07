@@ -1,1 +1,78 @@
 alias cd-rs='cd ~/txt/research'
+# A context-aware alias
+alias gs='(git status > /dev/null 2>&1); if [ $? -eq 0 ]; then git status; else gs; fi'
+alias fresh-accelerate='darcs get tesla:/home/darcs/accelerate accelerate-darcs'
+alias dc-db='psql -U postgres dc_dev'
+alias timings='mate ~/DropBox/research/cheat-sheets/timings-cheat-sheet.txt'
+alias gitit-sseefried="$HOME/cabal-sandboxes/gitit-sseefried/cabal-dev/bin/gitit"
+
+alias chrome='open -a "/Applications/Google Chrome.app"'
+
+alias cj='mate ~/txt/research/coding-journal/coding-journal.markdown'
+
+# Git aliases
+
+alias ga='git-alias ga   "git add"'
+alias gds='git-alias gds "git diff --staged"'
+alias ga='git-alias ga  "git add"'
+alias gp='git-alias gp  "git push"'
+alias gl='git-alias gl  "git log"'
+alias gs='git-alias gs  "git status"'
+alias gd='git-alias gd "git diff"'
+alias gc='git-alias gc "git commit"'
+alias gm='git-alias gm "git commit -m"'
+alias gma='git-alias gma "git commit -am"'
+alias gb='git-alias gb "git branch"'
+alias gc='git-alias gc "git checkout"'
+alias gra='git-alias gra "git remote add"'
+alias grr='git-alias grr "git remote rm"'
+alias gpu='git-alias gpu "git pull"'
+alias gcl='git-alias gcl "git clone"'
+
+alias psql='/usr/local/pgsql/bin/psql'
+
+alias commweb='open /Users/sseefried/Dropbox/Documents/commweb-integration-guide.pdf'
+
+alias pickaxe='open ~/Dropbox/Documents/Books/ruby-pickaxe-book.pdf'
+alias ruby-book='open ~/Dropbox/Documents/Books/"Agile Web Develeopment with Rails - rails3-b1_9.pdf"'
+
+alias ghc='ghc -optl-Wl,-no_pie'
+alias questions-for-conal='mate ~/code/playspace/doc/questions-for-conal/questions.txt'
+alias ghc-libs='mate ~/code/ghc/libraries'
+alias shady-sseefried='cd ~/code/playspace/src/shady-sseefried'
+alias pso='cd ~/code/playspace/src/play-space-online'
+
+alias task-start-pp="task start --key-value='\"project\":\"pink-pages\"'"
+alias task-start-psl="task start --key-value='\"project\":\"playspace\"' --key-value='\"location\":\"library\"'"
+alias task-start-mco="task start --key-value='\"project\":\"mco\"'"
+
+alias task-start-sel4="task start --key-value='\"project\":\"seL4\"'"
+
+alias task-start-cd="task start --key-value='\"project\":\"command-digital\"'"
+alias task-start-jd="task start --key-value='\"project\":\"jd\"'"
+
+alias terms='mate ~/Dropbox/terms.csv'
+
+alias isabelle-cheat-sheet='mate -w ~/txt/research/isabelle-cheat-sheet.txt'
+alias isabelle-ascii='open ~/txt/research/isabelle/isabelle-ascii.pdf'
+alias ascii-table='mate ~/Dropbox/ascii-table.txt'
+alias firefox='open -a /Applications/Firefox.app'
+
+alias f='find . -name '
+alias zmq-guide='chrome "/Users/sseefried/txt/ØMQ - The Guide.html"'
+
+alias nb-ve='source ~/code/ninjablocks/majordomo/.virthualenv/bin/activate'
+
+alias cd-nb='cd ~/code/ninjablocks; ls'
+
+alias sensei-run="$HOME/code/ninjablocks/dojo/ninjablocks-zeromq-workers/dist/build/sensei/sensei $HOME/code/ninjablocks/dash/config/dash.yml development"
+
+alias cd-ps='cd ~/code/playspace/repos/haskell/sseefried'
+alias cd-ps-js='cd ~/code/playspace/repos/javascript'
+
+alias ps-activate='source ~/code/playspace/.virthualenv/bin/activate'
+
+alias fry='chrome http://assets.diylol.com/hfs/a1f/e38/05d/icon/fry.jpg'
+
+alias git-wibble='git rebase -i HEAD~5'
+

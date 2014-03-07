@@ -1,0 +1,7 @@
+#!/bin/bash
+
+RES=$(hg branch 2>&1)
+STATUS=$?
+
+[ $STATUS -eq 0 ] && echo " [$RES]"
+

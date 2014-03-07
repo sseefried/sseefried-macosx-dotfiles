@@ -3,8 +3,6 @@ alias ll='ls -lh'
 alias ri='ri -f ansi'
 alias sd='svn diff | less'
 alias sdp='svn diff -r PREV | less'
-alias gd='git diff'
-alias gds='git diff --staged'
 
 if [ -f /usr/local/bin/ls ]; then
   alias ls='/usr/local/bin/ls --color=always'

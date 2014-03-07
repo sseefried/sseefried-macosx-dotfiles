@@ -7,10 +7,15 @@ module ShellHelpers
     try_in_parent_dirs { File.exist?('config/environment.rb') && File.exist?('Rakefile') }
   end
 
+  def has_rvmrc?
+    try_in_parent_dirs { File.exist?('.rvmrc') }
+  end
+
   module_function :in_rails_project?
+  module_function :has_rvmrc?
 
   protected
-  
+
   #
   # Tries the given block in directory and parent directories until either the block returns +true+
   # or +Dir.pwd == '/'+
@@ -19,7 +24,7 @@ module ShellHelpers
     current = Dir.pwd
     found = false
     until found || Dir.pwd == '/'
-      found = yield 
+      found = yield
       Dir.chdir("..")
     end
     result = !(Dir.pwd == '/')

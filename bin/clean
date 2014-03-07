@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Clean up emacs backup files
+rm -f *~ 
