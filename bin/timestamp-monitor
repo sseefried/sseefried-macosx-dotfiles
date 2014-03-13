@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+if ARGV.length < 2
+  puts "Usage: #{File.basename($0)} <cmd> <files>"
+  exit 1
+end
+
+cmd=ARGV[0]
+ARGV.shift
+files=ARGV
+
+h = {}
+files.each do |f|
+  h[f] = File.ctime(f) if File.exist?(f)
+end
+
+while true
+  sleep 1
+  h.each do |f, t|
+    if File.exist?(f) && t < File.ctime(f)
+      system(cmd)
+      h[f] = File.ctime(f)
+    end
+  end
+end
