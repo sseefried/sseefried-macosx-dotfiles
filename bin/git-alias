@@ -1,0 +1,33 @@
+#
+# Aliases a git command, but only when in a git repository.
+#
+# $1 is the "alias name".  If we are not in a git repository then this command is called.
+# $2 is the "git command". If we are in a git repository then this is used.
+#
+# The idea behind this script is to allow "context sensitive aliases".
+# For example:
+#
+# alias ga='git-alias ga "git add"'
+#
+# creates and alias ga that means 'git add' when in a 
+# git repository and 'ga' everywhere else.
+#
+# Note: The repetition of 'ga' in the definition is annoying but unavoidable as far as I can tell.
+#
+
+#!/bin/bash
+
+if [ $# -lt 2 ]; then
+  exit 1
+fi;
+
+ALIAS_NAME=$1
+shift
+CMD=$1
+shift
+(git rev-parse --is-inside-work-tree > /dev/null 2>&1)
+if [ $? -eq 0 ]; then 
+  $CMD "$@"
+else 
+  $ALIAS_NAME "$@"
+fi

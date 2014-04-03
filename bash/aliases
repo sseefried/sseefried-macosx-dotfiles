@@ -11,3 +11,22 @@ fi
 alias mate-config="mate ~/local/dotfiles/bash/$MACHINE/config"
 alias mate-env="mate ~/local/dotfiles/bash/$MACHINE/env"
 alias mate-aliases="mate ~/local/dotfiles/bash/$MACHINE/aliases"
+
+# Context dependent git aliases
+
+alias ga='git-alias ga   "git add"'
+alias gds='git-alias gds "git diff --staged"'
+alias ga='git-alias ga  "git add"'
+alias gp='git-alias gp  "git push"'
+alias gl='git-alias gl  "git log"'
+alias gs='git-alias gs  "git status"'
+alias gd='git-alias gd "git diff"'
+alias gc='git-alias gc "git commit"'
+alias gm='git-alias gm "git commit -m"'
+alias gma='git-alias gma "git commit -am"'
+alias gb='git-alias gb "git branch"'
+alias gc='git-alias gc "git checkout"'
+alias gra='git-alias gra "git remote add"'
+alias grr='git-alias grr "git remote rm"'
+alias gpu='git-alias gpu "git pull"'
+alias gcl='git-alias gcl "git clone"'
