@@ -3,3 +3,6 @@ export PATH=/usr/local/clang+llvm-3.0-x86_64-apple-darwin11/bin:$PATH
 export PATH=$HOME/ghc-ios/ghc-ios-scripts:$PATH
 
 export PATH=$PATH:$HOME/.cabal/bin/
+
+# For Sean Seefried' task tool
+export TASK_DIR=$HOME/.task
