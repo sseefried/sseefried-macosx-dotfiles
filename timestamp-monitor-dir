@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+
+#
+# Monitors the timestamps of all files (recursively) in a particular directory (or directories)
+# Runs every second, and can handle the creation of new files and new subdirectories
+#
+
+
+if ARGV.length < 2
+  puts "Usage: #{File.basename($0)} <cmd> <dirs>"
+  exit 1
+end
+
+cmd=ARGV[0]
+ARGV.shift
+dirs=ARGV
+
+h = {}
+
+dirs.each do |d|
+  Dir.glob("#{d}/**").each do |f|
+    h[f] = File.ctime(f) if File.exist?(f)
+  end
+end
+
+while true
+  sleep 1
+  dirs.each do |d|
+    Dir.glob("#{d}/**").each do |f|
+      if !h[f].nil?
+        system(cmd) if File.exist?(f) && h[f] < File.ctime(f)
+      else
+        system(cmd)
+      end
+      h[f] = File.ctime(f)
+    end
+  end
+end
