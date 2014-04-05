@@ -28,11 +28,11 @@ while true
   dirs.each do |d|
     Dir.glob("#{d}/**").each do |f|
       if !h[f].nil?
-        system(cmd) if File.exist?(f) && h[f] < File.ctime(f)
+        system(cmd) if File.exist?(f) && h[f] < File.mtime(f)
       else
         system(cmd)
       end
-      h[f] = File.ctime(f)
+      h[f] = File.mtime(f)
     end
   end
 end
