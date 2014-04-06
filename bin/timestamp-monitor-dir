@@ -26,6 +26,10 @@ end
 while true
   sleep 1
   dirs.each do |d|
+    unless Dir.exist?(d)
+      puts "Directory #{d} doesn't exist"
+      exit 1
+    end
     Dir.glob("#{d}/**").each do |f|
       if !h[f].nil?
         system(cmd) if File.exist?(f) && h[f] < File.mtime(f)
