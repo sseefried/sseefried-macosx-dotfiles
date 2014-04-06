@@ -1,1 +1,3 @@
 alias pomo='subl ~/txt/daily/pomodoro/pomodoro.txt'
+alias task-start-30="task start -k'\"project\":\"30acres\"'"
+alias daily='subl ~/sublime-projects/daily.sublime-project'
