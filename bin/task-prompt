@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# To be used inside PS1 environment variable for bash to show current task running, if any
+
+TASK=$(task current | grep Description)
+TIME=$(task current | grep Started)
+if [ $? -eq 0 ]; then
+  echo "$TASK" | sed 's/Description:  //'
+  echo "$TIME" | sed 's/Started:      //'
+fi
