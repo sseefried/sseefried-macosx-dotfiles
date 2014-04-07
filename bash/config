@@ -36,4 +36,8 @@ function parse_git_branch {
   git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/'
 }
 
-export PS1="\[$bldgrn\]\w\[$bldylw\]\$(parse_git_branch)\[$txtrst\]\[$bldgrn\]\n\u%\[$txtrst\] "
+export RVM_VERSION=`echo ~/local/dotfiles/bin/rvm-version`
+
+export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(parse_git_branch)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
+
+

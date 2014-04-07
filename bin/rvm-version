@@ -9,13 +9,24 @@
 
 require File.dirname(__FILE__) + '/shell_helpers.rb'
 
-if ShellHelpers::has_rvmrc?
+if File.exist?(".ruby-version")
+  s = IO.popen("cat .ruby-version") { |f| f.gets.strip }
+  printf(" [%s", s)
+
+  if File.exist?(".ruby-gemset")
+    s = IO.popen("cat .ruby-gemset") { |f| f.gets.strip }
+    printf("@%s",s)
+  end
+  printf("]")
+
+elsif ShellHelpers::has_rvmrc?
   params = {}
   rvm_default = false
   ruby_config = false
   IO.popen("rvm info 2>/dev/null") do |f|
     while !f.eof?
       s = f.gets
+      puts s
       ruby_config = true if (s =~ /^\s*ruby:/)
       if ruby_config && (s =~ /^\s*version:.*"([^p]*).*"/)
         params[:version] = $1
