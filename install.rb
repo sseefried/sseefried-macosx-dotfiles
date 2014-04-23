@@ -11,7 +11,7 @@ SYMLINKS = [ { :file => "#{THIS_DIR}/symlinks/dot_bash_profile",     :link => "#
              { :file => "#{THIS_DIR}/symlinks/dot_emacs",            :link => "#{ENV['HOME']}/.emacs"        },
              { :file => "#{THIS_DIR}/symlinks/emacs.d",              :link => "#{ENV['HOME']}/.emacs.d"      },
              { :file => "#{THIS_DIR}/symlinks/dot_ssh_slash_config", :link => "#{ENV['HOME']}/.ssh/config"   },
-             { :file => "#{THIS_DIR}/symlinks/dot_gitconfig",        :link => "#{ENV['HOME']}/.git_config"   }
+             { :file => "#{THIS_DIR}/symlinks/dot_gitconfig",        :link => "#{ENV['HOME']}/.gitconfig"   }
            ]
 
 SYMLINKS.each do |sl|
