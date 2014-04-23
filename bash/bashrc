@@ -2,9 +2,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 . $DIR/env
 . $DIR/config
 . $DIR/aliases
-if [ -d "$DIR/$MACHINE" ]; then
+if [ -d "$DIR/machines/$MACHINE" ]; then
   for file in env config aliases; do
-	FILE="$DIR/$MACHINE/$file"
+	FILE="$DIR/machines/$MACHINE/$file"
     [ -f $FILE ] && source $FILE
   done
 fi
