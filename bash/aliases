@@ -1,3 +1,6 @@
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
 # alias ls='/opt/local/bin/gls --color'
 alias ll='ls -lh'
 alias ri='ri -f ansi'
@@ -8,9 +11,9 @@ if [ -f /usr/local/bin/ls ]; then
   alias ls='/usr/local/bin/ls --color=always'
 fi
 
-alias mate-config="mate ~/local/dotfiles/bash/$MACHINE/config"
-alias mate-env="mate ~/local/dotfiles/bash/$MACHINE/env"
-alias mate-aliases="mate ~/local/dotfiles/bash/$MACHINE/aliases"
+alias mate-config="mate $THIS_DIR/machines/$MACHINE/config"
+alias mate-env="mate $THIS_DIR/machines/$MACHINE/env"
+alias mate-aliases="mate $THIS_DIR/machines/$MACHINE/aliases"
 
 # Context dependent git aliases
 
@@ -30,3 +33,5 @@ alias gra='git-alias gra "git remote add"'
 alias grr='git-alias grr "git remote rm"'
 alias gpu='git-alias gpu "git pull"'
 alias gcl='git-alias gcl "git clone"'
+alias gprom='git-alias gprom "git pull --rebase origin master"'
+alias gpom='git-alias gpom "git push origin master"'

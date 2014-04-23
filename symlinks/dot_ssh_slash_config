@@ -1,0 +1,101 @@
+IdentitiesOnly yes
+
+Host tesla
+  Hostname tesla.cse.unsw.edu.au	
+
+Host felixdirect
+  User felixdirect
+  Hostname shark180.anchor.net.au
+
+Host dawsonpub
+  User dawsonpu
+  Hostname shark180.anchor.net.au
+
+Host franklin
+  Hostname franklin.crl.nicta.com.au
+
+Host mco_staging
+  Hostname staging.munchcrunchorganics.com.au
+  User sseefried
+  Port 16044
+
+Host funky-small
+  Hostname funkyfotoapp.com
+  User ubuntu
+  Port 22
+  IdentityFile /Users/sseefried/.ec2/ec2-keypair.pem
+
+Host funky
+  Hostname funkyfotoapp.com
+  User root
+  Port 22
+  IdentityFile /Users/sseefried/.ec2/ec2-keypair.pem
+
+Host wipeitout-github
+  Hostname github.com
+  User git
+  IdentityFile ~/.ssh/id_rsa_wipeitout
+
+Host wipeitout-heroku
+  Hostname heroku.com
+  User git
+  IdentityFile ~/.ssh/id_rsa_wipeitout
+
+Host dcprod
+  User dawsonpu
+  Hostname shark180.anchor.net.au
+Host dcstaging
+  User dawsonpu_staging
+  Hostname shark180.anchor.net.au
+
+Host felixprod
+  User felixdirect
+  Hostname shark180.anchor.net.au
+Host felixstaging
+  User felixdirect_staging
+  Hostname shark180.anchor.net.au
+
+Host playspace
+  Hostname playspace.seanseefried.com
+  User sseefried
+  Port 16066
+
+Host seanseefried
+  Hostname seanseefried.com
+  User sseefried
+  Port 16066
+
+Host tiny-playspace
+  Hostname ec2-184-72-177-235.compute-1.amazonaws.com
+  User ubuntu
+  IdentityFile /Users/sseefried/.ec2/sseefried.pem
+
+# MCO Brisbane
+Host old_mco
+  User mco
+  Port 16066
+  Hostname 111.118.221.206
+
+Host hg
+  Hostname hg.ertos.nicta.com.au
+
+# Command Digital
+Host cd
+  Hostname 125.7.77.83
+  Port 512
+
+Host mco
+  User deploy
+  Hostname 111.118.221.231
+
+host munchcrunch_deploy
+  User deploy
+  Hostname 111.118.221.231
+  
+Host lemma
+  User sseefried
+  Hostname lemma.keg.ertos.in.nicta.com.au
+
+Host ppo
+  User pinkdev
+  Hostname pinkpages.com.au

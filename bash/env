@@ -1,6 +1,9 @@
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
 export EDITOR="mate -w"
 export SVN_EDITOR="mate -w"
 export LESS="-R"
-export PATH=$PATH:$HOME/local/dotfiles/bin:$HOME/dev/code/ccap_bin_files
+export PATH=$PATH:$THIS_DIR/../bin:$HOME/dev/code/ccap_bin_files
 export PATH=$PATH:$HOME/local/bin:$HOME/local/bin/scripts
 export PATH=$PATH:$HOME/.cabal/bin

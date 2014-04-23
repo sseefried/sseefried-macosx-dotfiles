@@ -1,4 +1,7 @@
-export RVM_VERSION=`echo ~/local/dotfiles/bin/rvm-version`
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
+export RVM_VERSION="$THIS_DIR/../bin/rvm-version"
 export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(__git_ps1)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
 
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

@@ -1,8 +1,0 @@
-1. Create ~/.bashrc file with:
-
-export MACHINE=<id>
-source $HOME/local/dotfiles/bashrc
-
-2. Symlink to bash_profile
-
-ln -s ~/local/dotfiles/bash_profile ~/.bash_profile

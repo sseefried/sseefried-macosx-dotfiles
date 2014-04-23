@@ -1,3 +1,6 @@
+THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+
 txtblk='\e[0;30m' # Black - Regular
 txtred='\e[0;31m' # Red
 txtgrn='\e[0;32m' # Green
@@ -36,7 +39,7 @@ function parse_git_branch {
   git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/'
 }
 
-export RVM_VERSION=`echo ~/local/dotfiles/bin/rvm-version`
+export RVM_VERSION=`echo $THIS_DIR/../bin/rvm-version`
 
 export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(parse_git_branch)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
 

@@ -1,4 +1,4 @@
-;;(add-to-list 'load-path "~/local/dotfiles/emacs.d/icicles")
+;;(add-to-list 'load-path "~/.emacs.d/icicles")
 ;;(linum-mode)
 
 ;;(require 'ido)

@@ -1,6 +1,5 @@
 === INSTALLATION === 
-You should install this in ~/local/dotfiles
 
-ln -s ~/.bashrc ~/local/dotfiles/bash_profile
-ln -s ~/.bash_profile ~/local/dotfiles/bashrc
+Run 
 
+$ ./install.rb
