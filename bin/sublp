@@ -1,0 +1,85 @@
+#!/usr/bin/env ruby
+#
+# sublp is a script which cuts down on the typing necessary
+# open a Sublime project.
+#
+# This script relies on the environment variable SUBLIME_PROJECT_DIR to be
+# set. It takes one argument which we'll call $1. If $1 matches a Sublime project file
+# (those files ending in .sublime-project) in SUBLIME_PROJECT_DIR then it will open that
+# project. If it does not it will list the projects available along with the shortest
+# unique prefixes. The script will also do this when provided zero arguments.
+#
+
+def exit_with_failure(msg)
+  puts msg
+  exit 1
+end
+
+
+#
+# Takes a collection of strings +ss+ and then returns an Array of Hashes of the form
+# { :unique => ..., :string => ...}
+# +:string+ contains the original string in the array, while +:unique+ is the shortest
+# unique prefix of the string in +ss+.
+#
+#
+# e.g. For input +[ "sell", "send", "receive" ]+ the method returns
+# +[ { :unique => "sel", :string => "sell"    },
+#    { :unqiue => "sen", :string => "send"    },
+#    { :unique => "r",   :string => "receive" } ]
+#
+def shortest_unique(ss)
+  result = []
+  ss.each do |s|
+    (0..s.length - 1).each do |i|
+      if ss.select {|s_| s_ =~ Regexp.new("^#{s[0..i]}") }.length == 1 || i == s.length - 1
+        result.push({:unique => s[0..i], :string => s})
+        break
+      end
+    end
+  end
+  result
+end
+
+def print_projects(uniques)
+  printf("%-15s   %s\n", "Regex", "Project")
+  printf("%-15s   %s\n", "-" * 5, "-" * 7)
+  uniques.each do |h|
+    printf("%-15s   %s\n", h[:unique], h[:string])
+  end
+end
+
+def main
+  exit_with_failure "SUBLIME_PROJECT_DIR is not set" unless ENV['SUBLIME_PROJECT_DIR']
+  unless File.directory? ENV['SUBLIME_PROJECT_DIR']
+    exit with_failure("SUBLIME_PROJECT_DIR does not exist")
+  end
+
+  dir=ENV['SUBLIME_PROJECT_DIR']
+
+  ps = Dir.glob("#{dir}/*.sublime-project").collect do |f|
+    File.basename(f).gsub(/\.sublime-project/,"")
+  end
+
+  if ARGV.length == 0
+    printf("Usage: #{File.basename($0)} <regex>\n")
+    print_projects(shortest_unique(ps))
+    exit 0
+  end
+
+  ps.each do |p|
+    if p =~ Regexp.new("^#{ARGV[0]}")
+      system("subl #{dir}/#{p}.sublime-project")
+      break
+    end
+  end
+
+  # Failed to find a match.
+  printf("Didn't find a project that matched regex '#{ARGV[0]}'\n")
+  print_projects(shortest_unique(ps))
+
+
+end
+
+main
+
