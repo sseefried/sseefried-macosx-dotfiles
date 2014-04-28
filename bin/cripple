@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+get-adb
+$HOME/code/android-cripple/android-cripple.sh
+if [ $? -eq 0 ]; then 
+  rm -f `find $HOME/local -name 'adb'`
+else
+  echo "ERROR: Plug in your Android"
+fi

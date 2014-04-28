@@ -99,3 +99,8 @@ Host lemma
 Host ppo
   User pinkdev
   Hostname pinkpages.com.au
+
+Host cripple
+  Hostname playspace.seanseefried.com
+  User sseefried
+  Port 16066

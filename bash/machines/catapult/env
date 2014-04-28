@@ -4,5 +4,8 @@ export PATH=$HOME/ghc-ios/ghc-ios-scripts:$PATH
 
 export PATH=$PATH:$HOME/.cabal/bin/
 
+export SUBLIME_PROJECT_DIR=$HOME/sublime-projects
+
+
 # For Sean Seefried' task tool
 export TASK_DIR=$HOME/.task
