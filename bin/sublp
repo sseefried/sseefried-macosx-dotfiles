@@ -32,8 +32,9 @@ def shortest_unique(ss)
   result = []
   ss.each do |s|
     (0..s.length - 1).each do |i|
-      if ss.select {|s_| s_ =~ Regexp.new("^#{s[0..i]}") }.length == 1 || i == s.length - 1
-        result.push({:unique => s[0..i], :string => s})
+      matching = ss.select { |s_| s_ =~ Regexp.new("^#{s[0..i]}", Regexp::IGNORECASE) }
+      if matching.length == 1 || i == s.length - 1
+        result.push({:unique => s[0..i].downcase, :string => s})
         break
       end
     end
@@ -68,9 +69,10 @@ def main
   end
 
   ps.each do |p|
-    if p =~ Regexp.new("^#{ARGV[0]}")
+    if p =~ Regexp.new("^#{ARGV[0]}", Regexp::IGNORECASE)
+      printf("Opening Sublime project '#{p}'")
       system("subl #{dir}/#{p}.sublime-project")
-      break
+      exit 0
     end
   end
 
