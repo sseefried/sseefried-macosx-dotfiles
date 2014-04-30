@@ -6,6 +6,8 @@ export PATH=$PATH:$HOME/.cabal/bin/
 
 export SUBLIME_PROJECT_DIR=$HOME/sublime-projects
 
+export SCALA_HOME=/usr/local/scala-2.11.0
+export PATH=$PATH:$SCALA_HOME/bin
 
 # For Sean Seefried' task tool
 export TASK_DIR=$HOME/.task
