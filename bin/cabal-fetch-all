@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+#
+# A script that fetches all of the cabal packages. Great for offline coding!
+#
+
+
+BASE="#{ENV['HOME']}/.cabal/packages/hackage.haskell.org/"
+
+packages = []
+IO.popen("tar tzf #{BASE}/00-index.tar.gz") do |f|
+  while !f.eof
+    s = f.gets
+    if s =~ /\.cabal$/
+      re = Regexp.new("(.*)\/(.*)\/.*")
+      ms = re.match(s)
+      packages.push({:name => ms[1], :version => ms[2]})
+    end
+  end
+end
+
+len = packages.size
+packages.each_with_index do |p,i|
+  puts "[+] Installing package #{i}/#{len}: #{p[:name]}-#{p[:version]}"
+  unless File.directory?("#{BASE}/#{p[:name]}") &&
+         File.directory?("#{BASE}/#{p[:name]}/#{p[:version]}")
+    system("cabal fetch #{p[:name]}-#{p[:version]} --no-dependencies >/dev/null 2>&1")
+  end
+end
