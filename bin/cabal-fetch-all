@@ -4,8 +4,20 @@
 # A script that fetches all of the cabal packages. Great for offline coding!
 #
 
+require 'digest'
 
-BASE="#{ENV['HOME']}/.cabal/packages/hackage.haskell.org/"
+
+BASE="#{ENV['HOME']}/.cabal/packages/hackage.haskell.org"
+MAX_THREADS=10
+
+#
+# Do an MD5 checksum on file and see if it matches etag.
+#
+def etag_matches(file, etag)
+  md5 = IO.popen("cat #{etag}") { |f| f.gets }.gsub(/"/,"")
+  digest = Digest::MD5.file(file)
+  digest == md5
+end
 
 packages = []
 IO.popen("tar tzf #{BASE}/00-index.tar.gz") do |f|
@@ -19,11 +31,45 @@ IO.popen("tar tzf #{BASE}/00-index.tar.gz") do |f|
   end
 end
 
+thread_count = 0
+
 len = packages.size
 packages.each_with_index do |p,i|
-  puts "[+] Installing package #{i}/#{len}: #{p[:name]}-#{p[:version]}"
-  unless File.directory?("#{BASE}/#{p[:name]}") &&
-         File.directory?("#{BASE}/#{p[:name]}/#{p[:version]}")
-    system("cabal fetch #{p[:name]}-#{p[:version]} --no-dependencies >/dev/null 2>&1")
+
+
+  package_dir="#{BASE}/#{p[:name]}"
+  version_dir="#{package_dir}/#{p[:version]}"
+  file_basename = "#{p[:name]}-#{p[:version]}"
+  file_name = "#{version_dir}/#{file_basename}.tar.gz"
+  etag_name = "#{version_dir}/#{file_basename}.tar.gz.etag"
+
+  # cabal fetch if all the files do not already exist.
+  # OR if all the files DO exist but the etag is different.
+
+
+  unless File.directory?(package_dir) &&
+         File.directory?(version_dir) &&
+         File.exist?(file_name) &&
+         File.exist?(etag_name) &&
+         etag_matches(file_name, etag_name)
+
+    if File.exist?(file_name) && File.exist?(etag_name) && !etag_matches(file_name, etag_name)
+      puts "[+] TAG DOESN'T MATCH for #{file_basename}. Downloading again."
+      system("rm -f #{file_name}")
+      system("rm -f #{etag_name}")
+    end
+
+    while thread_count >= MAX_THREADS do
+      sleep 1
+    end
+    thread_count += 1
+    Thread.fork do
+      puts "[+] Installing package #{i}/#{len}: #{file_basename}"
+      system("cabal fetch #{file_basename} --no-dependencies")
+      thread_count -= 1
+    end
+  else
+     puts "[+] Package already exists #{i}/#{len}: #{file_basename}"
   end
+
 end
