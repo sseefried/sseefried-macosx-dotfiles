@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'action_view'
+include ActionView::Helpers::NumberHelper
+
+BASE="#{ENV['HOME']}/.cabal/packages/hackage.haskell.org"
+
+total = 0
+Dir.glob("#{BASE}/**/*.tar.gz").each do |f|
+  sz = File.size(f)
+  total += sz
+  printf "%10d   %10s   %s\n", sz, number_to_human_size(sz), File.basename(f).gsub(/.tar.gz/,"")
+end
+
+printf "%10d   %10s   TOTAL SIZE\n", total, number_to_human_size(total)
