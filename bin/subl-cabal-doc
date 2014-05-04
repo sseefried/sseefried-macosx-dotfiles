@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+#
+# This script unpacks the source for a cabal project and adds the folder
+# to the current window in Sublime Text. Great for looking at the source code
+# and at the documentation without being online.
+#
+# Use in conjunction with cabal-fetch-all
+#
+
+
+dir="/tmp/haskell-doc"
+Dir.mkdir(dir) unless Dir.exist?(dir)
+Dir.chdir(dir)
+if ARGV.length > 0
+  system("rm -rf #{dir}/#{ARGV[0]}*") # Remove old
+  s = IO.popen("cabal unpack #{ARGV[0]} 2>/dev/null") {|f| f.gets }
+  re = Regexp.new("^Unpacking to (.*)\/$")
+  ms = re.match(s)
+  if ms
+    pkg = ms[1]
+    system("subl -a #{dir}/#{pkg}")
+  else
+    puts "Could not find Cabal package '#{ARGV[0]}'"
+    exit 1
+  end
+else
+  puts "Usage: #{File.basename($0)} <cabal package>"
+  exit 1
+end
