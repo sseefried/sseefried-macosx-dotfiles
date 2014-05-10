@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+#
+# A script for switching between multiple installed versions of GHC
+#
+
+GHC_FILES=["ghc", "ghci", "ghc-pkg"]
+
+def installed_versions(dir)
+  re = Regexp.new("ghc-([0-9.]*)$")
+  Dir.glob("#{dir}/ghc-*").collect do |f|
+    ms = re.match(File.basename(f))
+    ms ? ms[1] : nil
+  end.compact
+end
+
+
+def ghc_exists(dir,version)
+  paths = GHC_FILES.collect {|f| "#{dir}/#{f}-#{version}"}
+  paths.all? { |f| File.exist?(f) }
+end
+
+if ARGV.length < 1
+  puts "Usage: #{File.basename($0)} <ghc version>"
+  exit 1
+end
+
+dir = File.dirname(IO.popen("which ghc") { |f| f.gets })
+version = ARGV[0]
+
+if ghc_exists(dir,version)
+  puts "Switching to GHC version #{version}"
+  GHC_FILES.collect{|f| "#{dir}/#{f}"}.each do |f|
+    raise "#{f} is not a symlink!" unless File.symlink?(f)
+    system("rm -f #{f}")
+    system("ln -s #{f}-#{version} #{f}")
+  end
+else
+  puts "GHC version #{version} is not installed"
+  puts "Installed versions: #{installed_versions(dir).join(", ")}"
+  exit 1
+end
