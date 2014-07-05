@@ -9,7 +9,7 @@
 #
 
 
-dir="/tmp/haskell-doc"
+dir="#{ENV['HOME']}/tmp/haskell-doc"
 Dir.mkdir(dir) unless Dir.exist?(dir)
 Dir.chdir(dir)
 if ARGV.length > 0
