@@ -50,6 +50,15 @@ def print_projects(uniques)
   end
 end
 
+def fuzzy_regexp(s)
+  re = ".*"
+  (0..s.length - 1).each do |i|
+    re += "#{s[i]}.*"
+  end
+  re
+end
+
+
 def main
   exit_with_failure "SUBLIME_PROJECT_DIR is not set" unless ENV['SUBLIME_PROJECT_DIR']
   unless File.directory? ENV['SUBLIME_PROJECT_DIR']
@@ -69,7 +78,7 @@ def main
   end
 
   ps.each do |p|
-    if p =~ Regexp.new("^#{ARGV[0]}", Regexp::IGNORECASE)
+    if p =~ Regexp.new("#{fuzzy_regexp(ARGV[0])}", Regexp::IGNORECASE)
       printf("Opening Sublime project '#{p}'")
       system("subl #{dir}/#{p}.sublime-project")
       exit 0
