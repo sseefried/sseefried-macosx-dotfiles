@@ -1,0 +1,3 @@
+#!/bin/bash
+
+sshuttle -r sseefried@103.4.17.30:443 0/0
