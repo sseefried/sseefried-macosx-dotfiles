@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+#
+# A ghc, ghci, or ghc-pkg that is aware that it's in a Sandbox and will operate accordinging
+#
+#
+# This script does different things depending on its name. You can symlink to
+# the script to have it do different things.
+#
+# The script should have a name of the form <cmd>-sb
+# where cmd is one of ghc, ghci, ghc-pkg
+#
+#
+# It is also smart enough to follow the symlink for ghc, ghci, or ghc-pkg
+# discover the version you are currently using and then try to find
+# that version inside your Cabal Sandbox. It will behave the same
+# as ghc, ghci or ghc-pkg otherwise.
+#
+
+
+require File.join(File.dirname(__FILE__), "shell_helpers")
+
+
+# exec = the name this script was executed as
+exec=File.basename($0)
+re=Regexp.new(/^(ghc-sb|ghci-sb|ghc-pkg-sb)$/)
+m = re.match(exec)
+unless m
+  puts "This script was executed as '#{exec}. It is not of form <ghc|ghci|ghc-pkg>-sb"
+  exit 1
+end
+
+i = -1 - "-sb".length
+cmd     = m[1][0..i]
+cmd_dir = ShellHelpers::which(cmd)
+symlinked_cmd = File.basename(File.readlink("#{cmd_dir}/#{cmd}"))
+
+
+re=Regexp.new(/^(ghc|ghci|ghc-pkg)-([0-9\.]+)$/)
+m = re.match(symlinked_cmd)[1]
+unless m
+  puts "Cannot find #{symlinked_cmd}-<version>"
+  exit 1
+end
+version=m[1]
+
+dir     = ShellHelpers::try_in_dir_or_parents { File.exist?(".cabal-sandbox") }
+
+if dir
+  fs = Dir.glob("#{dir}/.cabal-sandbox/*-#{version}-packages.conf.d")
+  if fs.size > 0
+    package_conf = fs.first
+    system("#{symlinked_cmd} -package-db #{package_conf} #{ARGV.join(" ")}")
+    exit $?.exitstatus # Exit with same exit status as GHC
+  end
+end
+
+# Fall through
+system("#{symlinked_cmd} #{ARGV.join(" ")}")

@@ -15,6 +15,13 @@ module ShellHelpers
   end
 
   #
+  # Returns the first directory in the system path that contains a binary. Otherwise returns +nil+
+  #
+  def self.which(binary)
+     ENV["PATH"].split(File::PATH_SEPARATOR).find {|p| File.exists?( File.join( p, binary ) ) }
+  end
+
+  #
   # Takes a block and then tests the block in the current directory and all parent directories
   # in order until the block evaluates to truthy or the the root directory '/' is reached.
   # Return the first directory for which the block evaluates to truthy or +nil+.
