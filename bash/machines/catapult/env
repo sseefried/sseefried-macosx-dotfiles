@@ -1,4 +1,4 @@
-export PATH=/usr/local/clang+llvm-3.0-x86_64-apple-darwin11/bin:$PATH
+# export PATH=/usr/local/clang+llvm-3.0-x86_64-apple-darwin11/bin:$PATH
 
 export PATH=$HOME/ghc-ios/ghc-ios-scripts:$PATH
 
@@ -13,3 +13,25 @@ export PATH=$PATH:$SCALA_HOME/bin
 export TASK_DIR=$HOME/.task
 
 export PATH=/usr/local/bin:$PATH
+
+export EXT_LLVM_DIR=/usr/local/Cellar/extempore-llvm/3.4.1
+
+# For AWS
+export JAVA_HOME="$(/usr/libexec/java_home)"
+export AWS_ACCESS_KEY="AKIAJP5U4TAN2UUY2VFA"
+export AWS_SECRET_KEY="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"
+export EC2_AMITOOL_HOME="/usr/local/Cellar/ec2-ami-tools/1.5.2/libexec"
+
+
+export EC2_HOME="/usr/local/Cellar/ec2-api-tools/1.6.13.0/libexec"
+
+export INTERIORS_SEARCH_ENV=development
+
+
+# For X11
+export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
+
+#
+# PATH to include opt and llc which are not available in Mac OS X Mavericks (10.9.4)
+# WARNING: This could cause problems with other builds! Remove if so.
+export PATH=$PATH:/usr/local/opt/llvm/bin

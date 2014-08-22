@@ -7,3 +7,7 @@ alias task-start-me="task start -k'\"project\":\"personal\"'"
 alias daily='subl ~/sublime-projects/daily.sublime-project'
 alias sp='sublp'
 alias cghc-pkg='cabal sandbox hc-pkg'
+alias task-query-30="task query -v30acres -s\"2014-08-01 0:00\""
+alias task-query-pp="task query -vpink-pages -s\"2014-08-01 0:00\""
+
+alias ghc-flag-ref="open file:///Users/sseefried/build/ghc-7.6.3/docs/users_guide/users_guide/flag-reference.html"

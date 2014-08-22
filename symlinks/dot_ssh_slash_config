@@ -1,3 +1,8 @@
+Host *
+  ControlMaster  auto
+  ControlPath    /tmp/ssh-connection-%r@%h:%p
+  ControlPersist yes
+
 IdentitiesOnly yes
 
 Host tesla
@@ -82,7 +87,10 @@ Host hg
 # Command Digital
 Host cd
   Hostname 125.7.77.83
+  User sseefried
   Port 512
+  IdentityFile ~/.ssh/id_rsa_command_digital
+
 
 Host mco
   User deploy
@@ -104,3 +112,17 @@ Host cripple
   Hostname playspace.seanseefried.com
   User sseefried
   Port 16066
+
+Host interiors-staging digital-ocean do
+  User deployer
+  Hostname 107.170.109.77
+
+Host interiors digital-pacific dp
+    User iouser03
+    ProxyCommand ssh deployer@107.170.109.77 nc 101.0.102.163 22
+
+Host aws-proxy
+  User ec2-user
+  Hostname 54.84.101.2
+  Port 443
+  IdentityFile ~/.ssh/sseefried-aws-i-1790e53b.pem
