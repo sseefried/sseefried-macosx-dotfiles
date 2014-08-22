@@ -37,14 +37,15 @@ symlinked_cmd = File.basename(File.readlink("#{cmd_dir}/#{cmd}"))
 
 
 re=Regexp.new(/^(ghc|ghci|ghc-pkg)-([0-9\.]+)$/)
-m = re.match(symlinked_cmd)[1]
+m = re.match(symlinked_cmd)
 unless m
   puts "Cannot find #{symlinked_cmd}-<version>"
   exit 1
 end
-version=m[1]
+version=m[2]
 
 dir     = ShellHelpers::try_in_dir_or_parents { File.exist?(".cabal-sandbox") }
+
 
 if dir
   fs = Dir.glob("#{dir}/.cabal-sandbox/*-#{version}-packages.conf.d")
