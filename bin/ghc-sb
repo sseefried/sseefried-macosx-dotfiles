@@ -46,12 +46,12 @@ version=m[2]
 
 dir     = ShellHelpers::try_in_dir_or_parents { File.exist?(".cabal-sandbox") }
 
-
 if dir
   fs = Dir.glob("#{dir}/.cabal-sandbox/*-#{version}-packages.conf.d")
   if fs.size > 0
     package_conf = fs.first
-    system("#{symlinked_cmd} -package-db #{package_conf} #{ARGV.join(" ")}")
+    flag = exec == "ghc-pkg-sb" ? "--package-db=#{package_conf}" : "-package-db #{package_conf}"
+    system("#{symlinked_cmd} #{flag} #{ARGV.join(" ")}")
     exit $?.exitstatus # Exit with same exit status as GHC
   end
 end
