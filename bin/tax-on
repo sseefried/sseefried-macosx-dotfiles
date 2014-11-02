@@ -1,0 +1,49 @@
+#!/usr/bin/env runhaskell
+
+import Text.Printf
+import System.Environment
+import Data.List (sortBy)
+
+data TaxRow a = TaxRow { threshold :: a, lowerThreshold :: a, fixed :: a, rate :: a }
+
+medicareLevy :: Double
+medicareLevy = 0.02
+
+taxRates :: (Floating a, Ord a) => [TaxRow a]
+taxRates = sortBy taxSorter $
+           [ TaxRow 18200  0      0     0
+           , TaxRow 37000  18200  0     0.19
+           , TaxRow 80000  37000  3572  0.325
+           , TaxRow 180000 80000  17547 0.37
+           , TaxRow 1e10   180000 54547 0.45 ]
+
+taxSorter :: (Floating a, Ord a) => TaxRow a -> TaxRow a -> Ordering
+taxSorter tr tr' = compare (threshold tr) (threshold tr')
+
+findTaxRow :: (Floating a, Ord a) => a -> [TaxRow a] -> Maybe (TaxRow a)
+findTaxRow _ [] = Nothing
+findTaxRow amount (tr:trs) | amount < threshold tr = Just tr
+                           | otherwise = findTaxRow amount trs
+
+calculateTax :: Double -> TaxRow Double -> String
+calculateTax amount tr = printf (concat ["Total income tax:           $%.2f\n",
+                                         "Total tax (incl. Medicare): $%.2f\n",
+                                         "Effective Rate:             %.2f%%\n" ])
+                           totalIncomeTax totalTax effectiveRate
+  where
+    totalIncomeTax = (amount - lowerThreshold tr) * (rate tr) + (fixed tr)
+    totalTax = totalIncomeTax + amount * medicareLevy
+    effectiveRate = ((totalTax / amount)) * 100.0
+
+
+main :: IO ()
+main = do
+  prog <- getProgName
+  args <- getArgs
+  case args of
+    [] -> printf "Usage: %s <amount>" prog
+    (amountStr:_) -> do
+      let amount = read amountStr
+      case findTaxRow amount taxRates of
+        Just tr -> putStrLn $ calculateTax amount tr
+        Nothing -> putStrLn "Should never happen"
