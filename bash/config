@@ -35,8 +35,23 @@ bakcyn='\e[46m'   # Cyan
 bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
+function get_git_origin {
+  git remote -v 2>&1 | grep origin | grep fetch | awk '{print $2}'
+}
+
 function parse_git_branch {
-  git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/[\1]/'
+  get_git_origin | egrep -vq '^$' # check for empty line
+  IN_GIT=${PIPESTATUS[1]}
+  if [ $IN_GIT -eq 0 ]; then
+    get_git_origin | grep -q 'sseefried'
+    if [ ${PIPESTATUS[1]} -eq 0 ]; then
+      ID="["
+    else
+      ID="\n[$(get_git_origin):"
+    fi
+    BRANCH=$(git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')
+    printf "$ID$BRANCH]"
+  fi
 }
 
 export RVM_VERSION=`echo $THIS_DIR/../bin/rvm-version`
