@@ -46,6 +46,12 @@ version=m[2]
 
 dir     = ShellHelpers::try_in_dir_or_parents { File.exist?(".cabal-sandbox") }
 
+#
+# When running ghci you'll often want to use CTRL-C (i.e. send SIGINT) but you
+# only want that to be processed by ghci and not this script.
+#
+Signal.trap("INT") { } # do nothing
+
 if dir
   fs = Dir.glob("#{dir}/.cabal-sandbox/*-#{version}-packages.conf.d")
   if fs.size > 0
