@@ -28,12 +28,14 @@ findTaxRow amount (tr:trs) | amount < threshold tr = Just tr
 calculateTax :: Double -> TaxRow Double -> String
 calculateTax amount tr = printf (concat ["Total income tax:           $%.2f\n",
                                          "Total tax (incl. Medicare): $%.2f\n",
-                                         "Effective Rate:             %.2f%%\n" ])
-                           totalIncomeTax totalTax effectiveRate
+                                         "Effective Rate:             %.2f%%\n",
+                                         "Max monthly expenses:       $%.2f" ])
+                           totalIncomeTax totalTax effectiveRate monthly
   where
     totalIncomeTax = (amount - lowerThreshold tr) * (rate tr) + (fixed tr)
     totalTax = totalIncomeTax + amount * medicareLevy
     effectiveRate = ((totalTax / amount)) * 100.0
+    monthly = (amount - totalTax) / 12
 
 
 main :: IO ()
