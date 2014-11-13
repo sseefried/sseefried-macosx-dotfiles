@@ -18,12 +18,12 @@ alias mate-aliases="mate $THIS_DIR/machines/$MACHINE/aliases"
 # Context dependent git aliases
 
 alias ga='git-alias ga   "git add"'
-alias gds='git-alias gds "git diff --staged"'
+alias gds='git-alias gds "git diff --staged --ignore-space-at-eol"'
 alias ga='git-alias ga  "git add"'
 alias gp='git-alias gp  "git push"'
 alias gl='git-alias gl  "git log"'
 alias gs='git-alias gs  "git status"'
-alias gd='git-alias gd "git diff"'
+alias gd='git-alias gd "git diff --ignore-space-at-eol"'
 alias gc='git-alias gc "git commit"'
 alias gm='git-alias gm "git commit -m"'
 alias gma='git-alias gma "git commit -am"'

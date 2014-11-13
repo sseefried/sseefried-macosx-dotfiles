@@ -10,6 +10,8 @@ require 'digest'
 BASE="#{ENV['HOME']}/.cabal/packages/hackage.haskell.org"
 MAX_THREADS=10
 
+MAX_FILE_SIZE=5_000_000 # bytes
+
 #
 # Do an MD5 checksum on file and see if it matches etag.
 #
@@ -64,7 +66,7 @@ packages.each_with_index do |p,i|
     end
     thread_count += 1
     Thread.fork do
-      puts "[+] Installing package #{i}/#{len}: #{file_basename}"
+      puts "[+] Fetching package #{i}/#{len}: #{file_basename}"
       system("cabal fetch #{file_basename} --no-dependencies")
       thread_count -= 1
     end

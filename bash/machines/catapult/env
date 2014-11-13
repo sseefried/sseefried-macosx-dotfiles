@@ -35,3 +35,6 @@ export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
 # PATH to include opt and llc which are not available in Mac OS X Mavericks (10.9.4)
 # WARNING: This could cause problems with other builds! Remove if so.
 export PATH=$PATH:/usr/local/opt/llvm/bin
+
+# Add Magick-config to path
+export PATH=/usr/local/Cellar/imagemagick-ruby186/6.5.9-10/bin:$PATH

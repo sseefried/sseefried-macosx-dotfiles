@@ -12,8 +12,16 @@ Host felixdirect
   User felixdirect
   Hostname shark180.anchor.net.au
 
-Host dawsonpub
+Host dawsonpub stats
   User dawsonpu
+  Hostname shark180.anchor.net.au
+
+Host dawsonpu_staging
+  User dawsonpu_staging
+  Hostname shark180.anchor.net.au
+
+Host staging-stats
+  User statsstg
   Hostname shark180.anchor.net.au
 
 Host franklin
@@ -126,3 +134,9 @@ Host aws-proxy
   Hostname 54.84.101.2
   Port 443
   IdentityFile ~/.ssh/sseefried-aws-i-1790e53b.pem
+
+Host dsa debian-stable-android-smp
+  User androidbuilder
+  Hostname 127.0.0.1
+  Port 9022
+
