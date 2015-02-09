@@ -1,0 +1,22 @@
+# FIXME: Hard coded
+export HOME=/Users/sseefried
+export TERM=xterm
+
+#FIXME: Hard coded
+LLVM_PATH=/usr/local/clang+llvm-3.6.0-rc2-x86_64-apple-darwin/bin
+
+export PATH=/bin:/usr/bin:/usr/local/bin
+export PATH=$HOME/Library/Haskell/bin:$LLVM_PATH/bin:$PATH
+# FIXME: Hard coded
+export PATH=$HOME/ghc-ios/ghc-ios-scripts:$PATH
+
+export PS1="\[\e[1;33m\]\w\n[ghc-aarch64]%\[\e[0m\] "
+
+export GHC_AARCH64_CONFIGURE_CMD="
+  ./configure --target=aarch64-apple-darwin14 \
+    --with-gcc=aarch64-apple-darwin14-clang \
+    --enable-unregisterised \
+    --with-ld=aarch64-apple-darwin14-ld \
+    --with-llc=$LLVM_PATH/llc \
+    --with-opt=$LLVM_PATH/opt \
+    --prefix=$HOME/ghc-ios/aarch64-sysroot"
