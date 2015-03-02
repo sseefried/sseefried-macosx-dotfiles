@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#
+# A script find symbols in .a or .dylib (or .so) files using nm
+#
+if [ $# -lt 1 ]; then
+  echo "Usage: $(basename $0) <symbol>"
+  exit 1
+fi
+
+SYM=$1
+
+for i in $(find . -name '*.a' -o -name '*.dylib' -o -name '*.so'); do
+  nm $i 2>/dev/null| egrep -q "^[0-9a-f]* (T|S) [^ ]*$SYM[^ ]*"
+  if [ "${PIPESTATUS[1]}" -eq 0 ]; then
+    echo $i
+  fi
+
+done
