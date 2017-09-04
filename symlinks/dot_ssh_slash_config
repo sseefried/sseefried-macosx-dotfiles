@@ -1,12 +1,17 @@
-Host *
-  ControlMaster  auto
-  ControlPath    /tmp/ssh-connection-%r@%h:%p
-  ControlPersist yes
+#Host *
+#  ControlMaster  auto
+#  ControlPath    /tmp/ssh-connection-%r@%h:%p
+#  ControlPersist 2m
+
+Compression yes
 
 IdentitiesOnly yes
 
+Host *
+  UseRoaming no
+
 Host tesla
-  Hostname tesla.cse.unsw.edu.au	
+  Hostname tesla.cse.unsw.edu.au
 
 Host felixdirect
   User felixdirect
@@ -68,8 +73,8 @@ Host felixstaging
   User felixdirect_staging
   Hostname shark180.anchor.net.au
 
-Host playspace
-  Hostname playspace.seanseefried.com
+Host ss playspace
+  Hostname seanseefried.com
   User sseefried
   Port 16066
 
@@ -107,7 +112,7 @@ Host mco
 host munchcrunch_deploy
   User deploy
   Hostname 111.118.221.231
-  
+
 Host lemma
   User sseefried
   Hostname lemma.keg.ertos.in.nicta.com.au
@@ -125,18 +130,109 @@ Host interiors-staging digital-ocean do
   User deployer
   Hostname 107.170.109.77
 
+Host 30acres-tunnels
+  User tunnels
+  Hostname 54.153.144.177
+
 Host interiors digital-pacific dp
     User iouser03
-    ProxyCommand ssh deployer@107.170.109.77 nc 101.0.102.163 22
+    ProxyCommand ssh tunnels@tunnels.30acres.com.au nc 101.0.102.163 22
 
-Host aws-proxy
-  User ec2-user
-  Hostname 54.84.101.2
-  Port 443
-  IdentityFile ~/.ssh/sseefried-aws-i-1790e53b.pem
+Host goget
+    User thinkun
+    ProxyCommand ssh tunnels@tunnels.30acres.com.au nc www.goget.com.au 22
 
 Host dsa debian-stable-android-smp
   User androidbuilder
   Hostname 127.0.0.1
   Port 9022
 
+Host uks uberkate_stage
+  User uberkate
+  IdentityFile ~/.ssh/30acres.pem
+  Hostname staging.uberkate.com.au
+
+Host uk uberkate
+  User uberkate
+  IdentityFile ~/.ssh/30acres.pem
+  Hostname www.uberkate.com.au
+
+Host dcaws
+  User ubuntu
+  IdentityFile ~/.ssh/dawson.pem
+  Hostname 52.64.50.125
+
+Host dmdp # Dawson Media Digital Pacific
+  User root
+  Hostname 202.130.45.114
+
+Host dawsonmedia-aws dmaws
+  User apps
+  IdentityFile ~/.ssh/dawson.pem
+  Hostname 52.65.79.162
+
+
+# Requires VPN to connected
+# Public IP is 52.63.111.116 
+Host btl-ethx
+  User ubuntu
+  IdentityFile ~/.ssh/bittrade-ethx.pem
+  Hostname 10.0.1.198
+
+Host blochexchange bx
+  User blochex
+  IdentityFile ~/.ssh/blochexchange.pem
+  Hostname 52.65.155.138
+
+Host bress
+  User bress
+  IdentityFile ~/.ssh/bress.pem
+  Hostname 52.65.189.137
+
+Host bxfct blochx-factom blochx-factom-api
+  User blochx
+  IdentityFile ~/.ssh/blochexchange.pem
+  Hostname 52.65.122.105
+
+
+# c4.xlarge
+Host zcash-c4
+  User ubuntu
+  IdentityFile ~/.ssh/zcash.pem
+  Hostname 52.64.239.153
+
+Host zcash-c3
+  User ubuntu
+  IdentityFile ~/.ssh/zcash.pem
+  Hostname 52.64.12.164
+
+Host zcash-p2
+  User ubuntu
+  IdentityFile ~/.ssh/sseefried.pem
+  Hostname 52.87.237.182
+
+Host zcash
+  User zcash
+  Port 16022
+  Hostname 127.0.0.1
+  IdentityFile ~/.ssh/zcash_rsa
+
+# Andy Kitchen's beefy machien
+Host kronos
+   User sean
+   HostName 119.225.16.78
+   Port 2022
+
+Host vpsdime
+  User root
+  HostName 104.251.217.232
+
+Host bitcoin-nulldata bcnd svst
+  User ubuntu
+  HostName 13.54.229.210
+  IdentityFile ~/.ssh/bitcoin-nulldata.pem
+
+Host tiny-ipfs
+  User ubuntu
+  Hostname 13.54.195.105
+  IdentityFile ~/.ssh/bitcoin-nulldata.pem  

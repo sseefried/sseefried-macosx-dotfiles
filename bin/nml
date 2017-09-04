@@ -1,7 +1,7 @@
 #!/bin/bash
 
+# nm | less
+
 [ $# -gt 0 ] || exit 1
 
-
 nm "$@" | less
-# nm | less

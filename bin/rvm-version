@@ -18,29 +18,5 @@ if File.exist?(".ruby-version")
     printf("@%s",s)
   end
   printf("]")
-
-elsif ShellHelpers::has_rvmrc?
-  params = {}
-  rvm_default = false
-  ruby_config = false
-  IO.popen("rvm info 2>/dev/null") do |f|
-    while !f.eof?
-      s = f.gets
-      puts s
-      ruby_config = true if (s =~ /^\s*ruby:/)
-      if ruby_config && (s =~ /^\s*version:.*"([^p]*).*"/)
-        params[:version] = $1
-      end
-      if s =~ /gemset:.*"(.*)"/
-        params[:gemset] = $1
-        rvm_default = true if $1.length == 0
-      end
-    end
-  end
-  if rvm_default
-    printf " [default]"
-  else
-    printf " [%s@%s]" % [ params[:version], params[:gemset], 10 ]
-  end
 end
 

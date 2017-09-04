@@ -39,3 +39,4 @@ txtrst='\e[0m'    # Text Reset
 # export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(parse_git_branch)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
 
 
+

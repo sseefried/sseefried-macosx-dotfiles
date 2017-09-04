@@ -1,16 +1,16 @@
-export PATH=$PATH:$HOME/.cabal/bin
 
 export SUBLIME_PROJECT_DIR=$HOME/sublime-projects
+export PATH=$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$PATH
 
 # For Sean Seefried' task tool
 export TASK_DIR=$HOME/.task
 
+# Packer
+export PATH=$PATH:/usr/local/packer
 export PATH=/usr/local/bin:$PATH
 
 # For X11
 export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
 
-#
-# PATH to include opt and llc which are not available in Mac OS X Mavericks (10.9.4)
-# WARNING: This could cause problems with other builds! Remove if so.
-export PATH=$PATH:/usr/local/opt/llvm/bin
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
