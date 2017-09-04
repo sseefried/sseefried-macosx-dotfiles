@@ -1,0 +1,4 @@
+#!/bib/bash
+
+nm "$@" | less
+# nm | less
