@@ -3,6 +3,10 @@
 #  ControlPath    /tmp/ssh-connection-%r@%h:%p
 #  ControlPersist 2m
 
+Host *
+  UseKeyChain yes
+  AddKeysToAgent yes
+
 Compression yes
 
 IdentitiesOnly yes
