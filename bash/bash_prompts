@@ -90,7 +90,9 @@ set_prompt () {
     # current working directory.
     # See: https://apple.stackexchange.com/questions/144896/open-new-terminal-tab-in-current-working-directory-doesnt-work
     #
-    update_terminal_cwd
+    if [[ "$TERM_PROGRAM" == "Terminal.app" ]]; then
+      update_terminal_cwd
+    fi
 }
 
 if [ -f "$DATE_CMD" ]; then
