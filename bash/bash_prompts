@@ -95,9 +95,11 @@ set_prompt () {
     fi
 }
 
-if [ -f "$DATE_CMD" ]; then
-  trap 'timer_start' DEBUG
-  PROMPT_COMMAND='set_prompt'  
-else
-  echo "*** Please 'brew install coreutils' to get the good prompt ***"
+if [ "$IN_NIX_SHELL" = "" ]; then
+  if [ -f "$DATE_CMD"  ]; then
+    trap 'timer_start' DEBUG
+    PROMPT_COMMAND='set_prompt'
+  else
+    echo "*** Please 'brew install coreutils' to get the good prompt ***"
+  fi
 fi
