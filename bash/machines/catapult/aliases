@@ -2,6 +2,7 @@ alias pomo='subl ~/txt/daily/pomodoro/pomodoro.txt'
 alias task-start-30="task start -k'\"project\":\"30acres\"'"
 alias task-start-30-half="task start -k'\"project\":\"30acres\"' -k'\"rate\":\"half\"'"
 alias task-start-pp="task start -k'\"project\":\"pink-pages\"'"
+alias task-insert-pp="task insert -k'\"project\":\"pink-pages\"'"
 alias task-start-mco="task start -k'\"project\":\"munchcrunch\"'"
 alias task-start-me="task start -k'\"project\":\"personal\"'"
 alias task-start-epi="task start -k'\"project\":\"epidemic-game\"'"

@@ -4,12 +4,18 @@ export PATH=$HOME/.cabal/bin:$HOME/Library/Haskell/bin:$PATH
 # For Sean Seefried' task tool
 export TASK_DIR=$HOME/.task
 
-# Packer
-export PATH=$PATH:/usr/local/packer
-export PATH=/usr/local/bin:$PATH
-
 # For X11
 export PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig
 
+export LLVM_PATH="/usr/local/llvm-5.0.1"
+export PATH="$LLVM_PATH/bin:$PATH"
+
+export LDFLAGS="-L$LLVM_PATH/lib"
+export CPPFLAGS="-I$LLVM_PATH/include"
+
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
+
+export SEANSEEFRIED_DOT_ORG="tilthydeath:/var/www/seanseefried.org"
+export SEANSEEFRIED_DOT_ORG_MACHINE="tilthydeath"
+export SEANSEEFRIED_DOT_ORG_PATH="/var/www/seanseefried.org"

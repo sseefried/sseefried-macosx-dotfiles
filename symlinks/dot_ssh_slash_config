@@ -3,7 +3,6 @@
 #  ControlPath    /tmp/ssh-connection-%r@%h:%p
 #  ControlPersist 2m
 
-
 Host *
   UseKeyChain yes
   AddKeysToAgent yes
@@ -79,7 +78,7 @@ Host felixstaging
   Hostname shark180.anchor.net.au
 
 Host ss playspace
-  Hostname seanseefried.com
+  Hostname 103.4.17.30
   User sseefried
   Port 16066
 
@@ -176,8 +175,22 @@ Host dawsonmedia-aws dmaws
   IdentityFile ~/.ssh/dawson.pem
   Hostname 52.65.79.162
 
+Host bitcoin-nulldata bcnd svst
+  User ubuntu
+  HostName 13.54.229.210
+  IdentityFile ~/.ssh/bitcoin-nulldata.pem
 
-Host tilthydeath
+Host tiny-ipfs
+  User ubuntu
+  Hostname 13.54.195.105
+  IdentityFile ~/.ssh/bitcoin-nulldata.pem
+
+Host nixos
   User root
-  Hostname 13.236.178.253
-  IdentityFile ~/.ssh/tilthydeath-sseefried.pem
+  Port 16122
+  Hostname 127.0.0.1
+
+Host github-da
+  User git
+  IdentityFile ~/.ssh/id_rsa_da
+  Hostname github.com
