@@ -3,6 +3,7 @@
 #  ControlPath    /tmp/ssh-connection-%r@%h:%p
 #  ControlPersist 2m
 
+
 Host *
   UseKeyChain yes
   AddKeysToAgent yes
@@ -176,67 +177,7 @@ Host dawsonmedia-aws dmaws
   Hostname 52.65.79.162
 
 
-# Requires VPN to connected
-# Public IP is 52.63.111.116 
-Host btl-ethx
-  User ubuntu
-  IdentityFile ~/.ssh/bittrade-ethx.pem
-  Hostname 10.0.1.198
-
-Host blochexchange bx
-  User blochex
-  IdentityFile ~/.ssh/blochexchange.pem
-  Hostname 52.65.155.138
-
-Host bress
-  User bress
-  IdentityFile ~/.ssh/bress.pem
-  Hostname 52.65.189.137
-
-Host bxfct blochx-factom blochx-factom-api
-  User blochx
-  IdentityFile ~/.ssh/blochexchange.pem
-  Hostname 52.65.122.105
-
-
-# c4.xlarge
-Host zcash-c4
-  User ubuntu
-  IdentityFile ~/.ssh/zcash.pem
-  Hostname 52.64.239.153
-
-Host zcash-c3
-  User ubuntu
-  IdentityFile ~/.ssh/zcash.pem
-  Hostname 52.64.12.164
-
-Host zcash-p2
-  User ubuntu
-  IdentityFile ~/.ssh/sseefried.pem
-  Hostname 52.87.237.182
-
-Host zcash
-  User zcash
-  Port 16022
-  Hostname 127.0.0.1
-  IdentityFile ~/.ssh/zcash_rsa
-
-# Andy Kitchen's beefy machien
-Host kronos
-   User sean
-   HostName 119.225.16.78
-   Port 2022
-
-Host vpsdime
+Host tilthydeath
   User root
-  HostName 104.251.217.232
-
-Host bitcoin-nulldata bcnd svst
-  User ubuntu
-  HostName 13.54.229.210
-  IdentityFile ~/.ssh/bitcoin-nulldata.pem
-
-Host tiny-ipfs
-  User ubuntu
-  Hostname 13.54.195.105
-  IdentityFile ~/.ssh/bitcoin-nulldata.pem  
+  Hostname 13.236.178.253
+  IdentityFile ~/.ssh/tilthydeath-sseefried.pem
