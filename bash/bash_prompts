@@ -75,11 +75,11 @@ set_prompt () {
     PS1+="$Blue\\w $Yellow\$(parse_git_branch)"
 
     # If root, just print the host in red. Otherwise, print the current user
-    # and host in green.
+    # and host in another color
     if [[ $EUID == 0 ]]; then
         PS1+="\\n$Red\\u$Green@\\h "
     else
-        PS1+="\\n$Green\\u"
+        PS1+="\\n$Cyan\\u"
     fi
 
     PS1+="$Blue \\\$ $Reset"
