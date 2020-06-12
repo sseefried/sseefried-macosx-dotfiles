@@ -1,7 +1,11 @@
 THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Require you to `brew install coreutils`
 
-# alias ls='/opt/local/bin/gls --color'
+if [ -f /usr/local/bin/gls ]; then
+alias ls='/usr/local/bin/gls --color=always'
+fi
+
 alias ll='ls -lh'
 alias ri='ri -f ansi'
 alias sd='svn diff | less'

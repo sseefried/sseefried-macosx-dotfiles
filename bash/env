@@ -8,3 +8,5 @@ export PATH=$HOME/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.ghcup/bin:$PATH
 export PATH=$HOME/.cabal/bin:$PATH
+
+[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"

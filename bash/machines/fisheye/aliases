@@ -76,4 +76,3 @@ alias ps-activate='source ~/code/playspace/.virthualenv/bin/activate'
 alias fry='chrome http://assets.diylol.com/hfs/a1f/e38/05d/icon/fry.jpg'
 
 alias git-wibble='git rebase -i HEAD~5'
-
