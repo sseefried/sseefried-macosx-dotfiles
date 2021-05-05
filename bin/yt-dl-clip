@@ -1,0 +1,37 @@
+#!/bin/bash
+
+LOG=$(mktemp yt-dl-clip-log.XXXXXX)
+
+[ $# -lt 3 ] && { echo "Usage: $(basename $0) <youtube key> <start [hh]:mm:ss> <finish [hh]:mm:ss> "; exit 1; }
+
+youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' "$1" 2>&1 | tee "$LOG"
+
+[ "${PIPESTATUS[0]}" -ne "0" ] && { exit 1; }
+
+# Example of what we're looking for
+# [ffmpeg] Merging formats into "An awesome YouTube movie-v8wRzG1VjaB.mp4"
+
+grep -q 'has already been downloaded and merged' "$LOG"
+
+[ "${PIPESTATUS[0]}" -eq "0" ] && { echo "[+] Exiting"; exit 1; }
+
+FILE=$(cat "$LOG" | grep 'Merging formats into' | sed 's/.*Merging formats into "//' | sed s'/"$//')
+
+BASE=$(basename "$FILE" ".mp4")
+
+# ffmpeg -i $FILE -ss 00:01:00 -to 00:03:00 -c copy "$BASE-$2--$3.mp4"
+
+OUTFILE="$BASE-$2--$3.mp4"
+
+echo "[+] Making clip from $2 - $3 on $FILE"
+ffmpeg -i "$FILE" -ss "$2" -to "$3" -c copy "$OUTFILE" >/dev/null 2>&1
+
+if [ "${PIPESTATUS[0]}" -eq "0" ]; then
+  echo "[+] Clip has been written to '$OUTFILE'"
+else
+  echo "[+] ERROR: Something went wrong"
+fi
+
+# Clean-up
+rm -f "$FILE"
+rm -f "$LOG"
