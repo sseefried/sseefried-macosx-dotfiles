@@ -10,7 +10,7 @@
 
 [core]
 	excludesfile = /Users/sseefried/.gitignore
-	editor="emacs -nw"
+	editor="nano"
 [alias]
 
     lg = !"git lg1"
