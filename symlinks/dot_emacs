@@ -12,24 +12,43 @@
 ;; (global-set-key [(f12)] 'ibuffer)
 
 
+(require 'whitespace)
+(setq whitespace-line-column 100)
+(setq whitespace-style (quote (face tabs trailing lines space-before-tab newline
+    space-after-tab tab-mark newline-mark)))
 
+(setq whitespace-display-mappings
+         '((newline-mark ?\n   [?¬ ?\n] [?$ ?\n]) ; end-of-line
+          (tab-mark ?\t   [?» ?\t] [?\\ ?\t]) ; tab mark
+           ))
 
-;; (require 'whitespace)
-;; (setq whitespace-line-column 100)
-;; (setq whitespace-style (quote (face tabs trailing lines space-before-tab newline
-;;    space-after-tab tab-mark newline-mark)))
+(setq whitespace-tab (quote whitespace-newline))
 
-;; (setq whitespace-display-mappings
-;;          '((newline-mark ?\n   [?¬ ?\n] [?$ ?\n]) ; end-of-line
-;;          (tab-mark ?\t   [?» ?\t] [?\\ ?\t]) ; tab mark
-;;           ))
-
-;; (setq whitespace-tab (quote whitespace-newline))
-
-;; (global-whitespace-mode 1)
+(global-whitespace-mode 1)
+(add-hook 'write-file-hooks 'delete-trailing-whitespace)
 
 ;; ;; Binds command-/ to comment-or-uncomment-region. Just like TextMate
 ;; (define-key osx-key-mode-map (kbd "A-/") 'comment-or-uncomment-region-or-line)
 
 ;; (add-to-list 'auto-mode-alist '("\\.outline" . outline-mode))
 ;; (add-hook 'outline-mode-hook (lambda () (auto-fill-mode t) (set-fill-column 100)))
+
+(exec-path-from-shell-initialize)
+
+(global-font-lock-mode 1)
+
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(agda2-backend "MAlonzo"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
