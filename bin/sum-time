@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+  echo "Need a file with times to sum"
+  exit 1
+fi
+
+cat $1| grep -E '\- \[\d+:\d+\]' | sed 's/.*\[\([0-9]*\):\([0-9]*\)\].*$/(\1,\2)/' | xargs printf ",%s " | xargs -0 printf '(sum $ map (\\(x,y) -> x*60+y) [(0,0)%s]) `divMod` 60 ' | xargs -0 ghc-interp
