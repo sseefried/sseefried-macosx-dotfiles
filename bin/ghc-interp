@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PREFILE=$(mktemp "FileXXXXXX")
+FILE="$PREFILE.hs"
+EXEC=$(mktemp "run.XXXXX")
+OUT=$(mktemp "out.XXXXX")
+mv $PREFILE $PREFILE.hs
+echo "module Main where" >> $FILE
+
+if [ $# -lt 1 ]; then
+  echo "Provide an expression"
+  exit 1
+fi
+
+echo "main = putStrLn $ show $ $1" >> $FILE
+ghc $FILE -o $EXEC > $OUT 2>&1
+
+if [ $? -ne 0 ]; then
+  echo "Invalid expression"
+  cat $OUT
+  exit 1
+fi
+
+
+./$EXEC
+rm -f $FILE $EXEC $OUT
