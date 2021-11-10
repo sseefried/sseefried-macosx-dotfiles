@@ -8,19 +8,17 @@ mv $PREFILE $PREFILE.hs
 echo "module Main where" >> $FILE
 
 if [ $# -lt 1 ]; then
-  echo "Provide an expression"
+  echo "Provide a ghci expression"
   exit 1
 fi
 
-echo "main = putStrLn $ show $ $1" >> $FILE
+echo "main = putStrLn $ show $ $@" >> $FILE
 ghc $FILE -o $EXEC > $OUT 2>&1
 
 if [ $? -ne 0 ]; then
-  echo "Invalid expression"
   cat $OUT
   exit 1
 fi
 
-
 ./$EXEC
-rm -f $FILE $EXEC $OUT
+rm -f $FILE $EXEC $OUT $(basename $FILE .hs).hi $(basename $FILE .hs).o
