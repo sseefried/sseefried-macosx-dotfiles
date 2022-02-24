@@ -24,3 +24,8 @@
 
 [push]
 	default = simple
+[pull]
+	ff = only
+
+[remind]
+    paths = /Users/sseefried/code/*,/Users/sseefried/local/dotfiles/*,-/Users/sseefried/code/others/*
