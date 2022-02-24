@@ -1,19 +1,14 @@
-;;(add-to-list 'load-path "~/.emacs.d/icicles")
-;;(linum-mode)
+;;
+;; Automatic package installation with MELPA
+;;
 
-;;(require 'ido)
-;;(ido-mode 1)
-;;(setq ido-enable-flex-matching t)
-
-;;(setq ibuffer-shrink-to-minimum-size t)
-;;(setq ibuffer-always-show-last-buffer nil)
-;;(setq ibuffer-sorting-mode 'recency)
-;;(setq ibuffer-use-header-line t)
-;; (global-set-key [(f12)] 'ibuffer)
+(require 'package)
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
 
 
 (require 'whitespace)
-(setq whitespace-line-column 100)
+(setq whitespace-line-column 10000)
 (setq whitespace-style (quote (face tabs trailing lines space-before-tab newline
     space-after-tab tab-mark newline-mark)))
 
@@ -25,6 +20,7 @@
 (setq whitespace-tab (quote whitespace-newline))
 
 (global-whitespace-mode 1)
+
 (add-hook 'write-file-hooks 'delete-trailing-whitespace)
 
 ;; ;; Binds command-/ to comment-or-uncomment-region. Just like TextMate
@@ -45,10 +41,97 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(agda2-backend "MAlonzo"))
+ '(agda-input-user-translations
+   '(("r--|" "⟼")
+     ("r|" "⤇")
+     ("-1" "⁻¹")
+     ("-inf" "⁻∞")
+     ("n+-inf" "ℕ+⁻∞")
+     ("delaysr" "ℕ+⁻∞")
+     ("u^" "˘")
+     ("bij" "⤖")
+     ("<x>" "⟨×⟩")
+     ("map1" "map₁")
+     ("map2" "map₂")
+     ("mapi" "mapⁱ")
+     ("mapi2" "mapⁱ₂")
+     ("~<" "≈⟨ ? ⟩")
+     ("purei" "pureⁱ")
+     ("=?" "≟")
+     ("=<" "≡⟨⟩")
+     ("r]" "↦")
+     ("~^" "≈˘⟨ ? ⟩")
+     ("ex1" "∃¹")
+     ("ex2" "∃²")
+     ("ust" "꙳")
+     ("la" "λ")
+     ("del" "δ")
+     ("begin" "\\begin")
+     ("end" "\\end")
+     ("<o>" "⟨∘⟩")
+     ("dg" "°")
+     ("*l" "✲ₗ")
+     ("depx" "⨉")))
+ '(agda2-backend "MAlonzo")
+ '(agda2-highlight-level 'interactive)
+ '(image-scaling-factor 1.0)
+ '(markdown-display-remote-images nil)
+ '(markdown-header-scaling t)
+ '(markdown-max-image-size '(400 . 1000))
+ '(package-selected-packages
+   '(consult counsel ivy fzf poly-markdown polymode markdown-mode exec-path-from-shell)))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:height 116 :foundry "SRC" :family "Hack"))))
+ '(haskell-keyword-face ((t (:inherit font-lock-keyword-face))))
+ '(haskell-operator-face ((t (:inherit font-lock-keyword-face))))
+ '(whitespace-tab ((t (:foreground "#636363")))))
+
+(defun swap-option-command ()
+  "Swap option & command keys.  I also changed the binding of
+screen-shots in the OS from command-# and command-$ to
+command-option-3 and command-option-4, with control added for the
+clipboard versions.  In other words, I replaced shift with
+option, so as to avoid a clash with.  I also changed the
+Spotlight binding from command-space to option-space."
+  (interactive)
+  (let ((option-was mac-option-modifier))
+    (setq mac-option-modifier mac-command-modifier)
+    (setq mac-command-modifier option-was)))
+
+(add-to-list 'load-path "~/.emacs.d/ergoemacs-mode")
+(require 'ergoemacs-mode)
+
+;(setq ergoemacs-theme nil) ;; Uses Standard Ergoemacs keyboard theme
+;(setq ergoemacs-keyboard-layout "us") ;; Assumes QWERTY keyboard layout
+;(ergoemacs-mode 1)
+
+(when (eq system-type 'darwin)
+  (swap-option-command))
+
+(visual-line-mode)
+
+(add-to-list 'auto-mode-alist '("\\.lagda.md\\'" . agda2-mode))
+(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+
+
+;; Prevent auto-identation in poly-mode for selected modes
+(add-hook 'agda-mode-hook (lambda () (electric-indent-local-mode -1)))
+
+;; Turn on visual-line-mode for markdown mode
+(add-hook 'markdown-mode-hook 'turn-on-visual-line-mode)
+
+;; Display line numbers
+(global-display-line-numbers-mode)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Turns on the visual line wrap indicators for visual-line-mode so that you can tell
+;; if the line is merely wrapped or whether a genuine newline is there.
+;; (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
