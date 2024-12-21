@@ -36,7 +36,7 @@ bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset
 
 
-# export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(parse_git_branch)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
+# export PS1="\[$bldpur\]\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(parse_git_branch)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
 
 
 

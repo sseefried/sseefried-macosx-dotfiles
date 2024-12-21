@@ -1,35 +1,3 @@
-alias pomo='subl ~/txt/daily/pomodoro/pomodoro.txt'
-alias task-start-30="task start -k'\"project\":\"30acres\"'"
-alias task-start-30-half="task start -k'\"project\":\"30acres\"' -k'\"rate\":\"half\"'"
-alias task-start-pp="task start -k'\"project\":\"pink-pages\"'"
-alias task-insert-pp="task insert -k'\"project\":\"pink-pages\"'"
-alias task-start-mco="task start -k'\"project\":\"munchcrunch\"'"
-alias task-start-me="task start -k'\"project\":\"personal\"'"
-alias task-start-epi="task start -k'\"project\":\"epidemic-game\"'"
-alias task-start-opt="task start --key-value='\"project\":\"optical-illusion-game\"'"
-
-alias daily='subl ~/sublime-projects/daily.sublime-project'
-alias sp='sublp'
-alias cghc-pkg='cabal sandbox hc-pkg'
-alias task-query-30="task query -v30acres -s\"2015-02-01 0:00\""
-alias task-query-pp="task query -vpink-pages -s\"2014-12-01 0:00\""
-alias task-query-epi="task query -vepidemic"
-alias task-query-epi-oct="task query -vepidemic -s\"2014-10-01 0:00\""
-
-
-
-alias ghc-flag-ref="open file:///Users/sseefried/build/ghc-7.6.3/docs/users_guide/users_guide/flag-reference.html"
 alias gpop='git push origin production'
 
-alias subl-ghc-lib="subl -a ~/build/ghc-7.6.3-src/libraries"
-alias ssh-reset='rm -f /tmp/ssh-connection-*'
-alias cart-reset='rm -f /Users/sseefried/Sites/interiors-cart/public/vq2*.php'
 
-alias db='docker build --force-rm=true .'
-alias dr='docker-run'
-alias em='emacs -nw'
-alias nano='emacs -nw'
-
-alias epi-month='task query -vepidemic -s"2015-04-01 0:00"'
-
-alias epi="cd $HOME/code/games/epidemic-game"

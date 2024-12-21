@@ -2,8 +2,9 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Require you to `brew install coreutils`
 
-if [ -f /usr/local/bin/gls ]; then
-alias ls='/usr/local/bin/gls --color=always'
+GLS="/opt/homebrew/opt/coreutils/libexec/gnubin/ls"
+if [ -f "$GLS" ]; then
+alias ls='$GLS --color=always'
 fi
 
 alias ll='ls -lh'

@@ -1,6 +1,6 @@
 # Some really useful things for bash prompts
 
-DATE_CMD="/usr/local/opt/coreutils/libexec/gnubin/date"
+DATE_CMD="/opt/homebrew/opt/coreutils/libexec/gnubin/date"
 
 function get_git_origin {
   git remote -v 2>&1 | grep origin | grep fetch | awk '{print $2}'

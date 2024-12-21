@@ -2,7 +2,7 @@ THIS_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
 export RVM_VERSION="$THIS_DIR/../bin/rvm-version"
-export PS1="\[$bldpur\]\$(task-prompt)\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(__git_ps1)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
+export PS1="\[$bldpur\]\n\[$bldblu\]\w\[$bldylw\]\$($RVM_VERSION)\$(__git_ps1)\$(hg-branch-prompt)\[$txtrst\]\[$bldblu\]\n\u%\[$txtrst\] "
 
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
@@ -10,4 +10,4 @@ if [ -f /opt/local/etc/bash_completion ]; then
       . /opt/local/etc/bash_completion
 fi
 
-source /usr/local/git/contrib/completion/git-completion.bash
+# source /usr/local/git/contrib/completion/git-completion.bash

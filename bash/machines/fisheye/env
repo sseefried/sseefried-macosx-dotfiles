@@ -37,45 +37,7 @@ export PATH=$PATH:/usr/local/sbt/bin
 export ANT_HOME=/usr/local/ant
 export PATH=$PATH:$ANT_HOME/bin
 
-# Hadoop
-export PATH=$PATH:/usr/local/hadoop/bin
-export HADOOP_HOME=/usr/local/hadoop
-export HADOOP_LOG_DIR=/var/local/hadoop/logs
-export HADOOP_LOGS=/var/local/hadoop/logs
 
-# For development of MunchCrunch site.
-export MCO_NO_SSL=yes
 
-export HACKAGE=$HOME/code/hackage/tarballs
 
-# Task
-export TASK_DIR=$HOME/.task
 
-# Isabelle/seL4
-
-export TOOLPREFIX=
-export PROOFGENERAL_OPTIONS="-p /Applications/Aquamacs.app/Contents/MacOS/Emacs -k L4"
-
-# Adapt DB Service
-
-# export ADAPT_DB_SERVICE_DEVEL=yes
-
-export RAILS_ENV=development
-
-# Android development
-export ANDROID_SDK_ROOT=$HOME/android/adt-bundle-mac-x86_64-20131030/sdk
-export ANDROID_NDK_ROOT=$HOME/android/android-ndk-r9b
-export NDK_ROOT=$ANDROID_NDK_ROOT
-export COCOS2DX_ROOT=$HOME/frameworks/cocos2d-x-3.0alpha0
-export NDK_TOOLCHAIN_VERSION=4.8
-export PATH="${PATH}:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools"
-
-export LDFLAGS="$LDFLAGS -L/usr/local/opt/libxml2/lib"
-export CPPFLAGS="$CPPCLAGS -I/usr/local/opt/libxml2/include"
-
-# For Isabelle
-
-export Z3_NON_COMMERCIAL=yes
-export ISABELLE_HOME=/Applications/Isabelle2013-2.app/Isabelle
-
-export HGEDITOR=nano
