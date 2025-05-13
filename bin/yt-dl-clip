@@ -1,37 +1,125 @@
 #!/bin/bash
 
+set -euo pipefail
+
+# Configuration
+CACHE_EXPIRY_MINUTES="30"  # Length of time file remains in cache
+CACHE_DIR="$HOME/tmp/yt-dl-clip-cache"
 LOG=$(mktemp yt-dl-clip-log.XXXXXX)
 
-[ $# -lt 3 ] && { echo "Usage: $(basename $0) <youtube key> <start [hh]:mm:ss> <finish [hh]:mm:ss> "; exit 1; }
+cleanup() {
+  [[ -f "$LOG" ]] && rm -f "$LOG"
+}
 
-youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' "$1" 2>&1 | tee "$LOG"
+trap cleanup EXIT SIGHUP SIGINT SIGTERM
 
-[ "${PIPESTATUS[0]}" -ne "0" ] && { exit 1; }
+# Function to convert [hh]:[mm]:[ss] to seconds
+time_to_seconds() {
+  local time=$1
+  local hours minutes seconds
+  IFS=":" read -r hours minutes seconds <<< "$time"
+  echo $((10#$hours * 3600 + 10#$minutes * 60 + 10#$seconds))
+}
 
-# Example of what we're looking for
-# [ffmpeg] Merging formats into "An awesome YouTube movie-v8wRzG1VjaB.mp4"
+# Function to convert [hh]:[mm]:[ss] to XXhXXmXXs format
+time_to_hms_format() {
+  local time=$1
+  local hours minutes seconds
+  
+  # Check if the time includes hours, minutes, and seconds
+  if [[ "$time" =~ ([0-9]+):([0-9]+):([0-9]+) ]]; then
+    # If the format is [hh]:[mm]:[ss]
+    hours=${BASH_REMATCH[1]}
+    minutes=${BASH_REMATCH[2]}
+    seconds=${BASH_REMATCH[3]}
+    echo "${hours}h${minutes}m${seconds}s"
+  elif [[ "$time" =~ ([0-9]+):([0-9]+) ]]; then
+    # If the format is [mm]:[ss]
+    minutes=${BASH_REMATCH[1]}
+    seconds=${BASH_REMATCH[2]}
+    echo "${minutes}m${seconds}s"
+  else
+    echo "[!] Invalid time format"
+    exit 1
+  fi
+}
 
-grep -q 'has already been downloaded and merged' "$LOG"
+for DEP in yt-dlp ffmpeg; do
+  command -v "$DEP" > /dev/null 2>&1 || { echo "Install $DEP"; exit 1; }
+done
 
-[ "${PIPESTATUS[0]}" -eq "0" ] && { echo "[+] Exiting"; exit 1; }
+# Create cache directory if it doesn't exist
+mkdir -p "$CACHE_DIR"
 
-FILE=$(cat "$LOG" | grep 'Merging formats into' | sed 's/.*Merging formats into "//' | sed s'/"$//')
+# Cleanup old files in the cache
+find "$CACHE_DIR" -type f -mmin "+${CACHE_EXPIRY_MINUTES}" -exec rm -f {} \;
 
-BASE=$(basename "$FILE" ".mp4")
-
-# ffmpeg -i $FILE -ss 00:01:00 -to 00:03:00 -c copy "$BASE-$2--$3.mp4"
-
-OUTFILE="$BASE-$2--$3.mp4"
-
-echo "[+] Making clip from $2 - $3 on $FILE"
-ffmpeg -i "$FILE" -ss "$2" -to "$3" -c copy "$OUTFILE" >/dev/null 2>&1
-
-if [ "${PIPESTATUS[0]}" -eq "0" ]; then
-  echo "[+] Clip has been written to '$OUTFILE'"
-else
-  echo "[+] ERROR: Something went wrong"
+# Check argument count
+if [ $# -lt 3 ]; then
+  echo "Usage: $(basename "$0") <youtube key> <start [hh]:mm:ss> <finish [hh]:mm:ss>"
+  exit 1
 fi
 
-# Clean-up
-rm -f "$FILE"
-rm -f "$LOG"
+
+# Convert $2 (start) and $3 (finish) to seconds
+start_seconds=$(time_to_seconds "$2")
+end_seconds=$(time_to_seconds "$3")
+
+# Check if $2 < $3
+if [ "$start_seconds" -ge "$end_seconds" ]; then
+  echo "[!] ERROR: Start time must be less than end time."
+  exit 1
+fi
+
+# Download the video only if it's not in the cache
+VIDEO_TITLE=$(yt-dlp --get-title "$1")
+CACHE_FILE="$CACHE_DIR/$(echo "$VIDEO_TITLE" | sed 's/[^a-zA-Z0-9]/_/g').mp4"
+echo "[+] File is $(basename $CACHE_FILE)"
+if [[ -f "$CACHE_FILE" ]]; then
+  echo "[+] File found in cache"
+else
+  echo "[+] Downloading video to cache..."
+  if ! yt-dlp -f mp4 -o "$CACHE_FILE" "$1" 2>&1 | tee "$LOG"; then
+    echo "[!] youtube-dl failed"
+    exit 1
+  fi
+
+
+  # Exit early if already downloaded
+  if grep -q 'has already been downloaded and merged' "$LOG"; then
+    echo "[+] Exiting: already downloaded and merged"
+    exit 0
+  fi
+fi
+
+touch "$CACHE_FILE" # update modification time
+
+
+FILE=$(basename $CACHE_FILE)
+
+# Convert start and end time to XXhXXmXXs format
+BEGIN=$(time_to_hms_format "$2")
+END=$(time_to_hms_format "$3")
+
+OUTFILE="${FILE}--$BEGIN-$END.mp4"
+
+echo "[+] Making clip from $2 to $3 on $(basename $CACHE_FILE)"
+
+# Run ffmpeg and capture its output
+FFMPEG_OUTPUT=$(ffmpeg -y -i "$CACHE_FILE" -ss "$2" -to "$3" -c copy "$OUTFILE" 2>&1)
+
+# Check for the "Output file is empty" string in the output
+if echo "$FFMPEG_OUTPUT" | grep -q "Output file is empty"; then
+  echo "[!] ERROR: Output file is empty. Deleting $OUTFILE"
+  rm -f "$OUTFILE"
+  exit 1
+fi
+
+# If no error, check if the output file exists and has content
+if [ ! -s "$OUTFILE" ]; then
+  echo "[!] ERROR: The output file '$OUTFILE' is empty."
+  rm -f "$OUTFILE"
+  exit 1
+fi
+
+echo "[+] Clip has been written to '$OUTFILE'"
