@@ -19,3 +19,9 @@ export LC_ALL="en_US.UTF-8"
 export SEANSEEFRIED_DOT_ORG="tilthydeath:/var/www/seanseefried.org"
 export SEANSEEFRIED_DOT_ORG_MACHINE="tilthydeath"
 export SEANSEEFRIED_DOT_ORG_PATH="/var/www/seanseefried.org"
+
+if [ -d /opt/homebrew/opt/nvm ]; then
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+fi  

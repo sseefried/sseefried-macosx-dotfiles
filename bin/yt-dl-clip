@@ -3,8 +3,9 @@
 set -euo pipefail
 
 # Configuration
+YT_CMD="yt-dlp" # https://github.com/yt-dlp/yt-dlp
 CACHE_EXPIRY_MINUTES="30"  # Length of time file remains in cache
-CACHE_DIR="$HOME/tmp/yt-dl-clip-cache"
+CACHE_DIR="$HOME/tmp/$YT_CMD-clip-cache"
 LOG=$(mktemp yt-dl-clip-log.XXXXXX)
 
 cleanup() {
@@ -25,7 +26,7 @@ time_to_seconds() {
 time_to_hms_format() {
   local time=$1
   local hours minutes seconds
-  
+
   # Check if the time includes hours, minutes, and seconds
   if [[ "$time" =~ ([0-9]+):([0-9]+):([0-9]+) ]]; then
     # If the format is [hh]:[mm]:[ss]
@@ -44,7 +45,7 @@ time_to_hms_format() {
   fi
 }
 
-for DEP in yt-dlp ffmpeg; do
+for DEP in $YT_CMD ffmpeg; do
   command -v "$DEP" > /dev/null 2>&1 || { echo "Install $DEP"; exit 1; }
 done
 
@@ -72,15 +73,15 @@ if [ "$start_seconds" -ge "$end_seconds" ]; then
 fi
 
 # Download the video only if it's not in the cache
-VIDEO_TITLE=$(yt-dlp --get-title "$1")
+VIDEO_TITLE=$($YT_CMD --get-title "$1")
 CACHE_FILE="$CACHE_DIR/$(echo "$VIDEO_TITLE" | sed 's/[^a-zA-Z0-9]/_/g').mp4"
 echo "[+] File is $(basename $CACHE_FILE)"
 if [[ -f "$CACHE_FILE" ]]; then
   echo "[+] File found in cache"
 else
   echo "[+] Downloading video to cache..."
-  if ! yt-dlp -f mp4 -o "$CACHE_FILE" "$1" 2>&1 | tee "$LOG"; then
-    echo "[!] youtube-dl failed"
+  if ! $YT_CMD -f mp4 -o "$CACHE_FILE" "$1" 2>&1 | tee "$LOG"; then
+    echo "[!] $YT_CMD failed"
     exit 1
   fi
 
