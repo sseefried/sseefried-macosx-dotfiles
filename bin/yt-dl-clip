@@ -14,14 +14,28 @@ cleanup() {
 
 trap cleanup EXIT SIGHUP SIGINT SIGTERM
 
-# Function to convert [hh]:[mm]:[ss] to seconds
 time_to_seconds() {
   local time=$1
-  local hours minutes seconds
-  IFS=":" read -r hours minutes seconds <<< "$time"
+  local hours=0 minutes seconds
+
+  # Check if the time includes hours, minutes, and seconds
+  if [[ "$time" =~ ([0-9]+):([0-9]+):([0-9]+) ]]; then
+    # If the format is [hh]:[mm]:[ss]
+    hours=${BASH_REMATCH[1]}
+    minutes=${BASH_REMATCH[2]}
+    seconds=${BASH_REMATCH[3]}
+  elif [[ "$time" =~ ([0-9]+):([0-9]+) ]]; then
+    # If the format is [mm]:[ss]
+    minutes=${BASH_REMATCH[1]}
+    seconds=${BASH_REMATCH[2]}
+  else
+    echo "[!] Invalid time format"
+    exit 1
+  fi
+
+  # Convert time to seconds
   echo $((10#$hours * 3600 + 10#$minutes * 60 + 10#$seconds))
 }
-
 # Function to convert [hh]:[mm]:[ss] to XXhXXmXXs format
 time_to_hms_format() {
   local time=$1
@@ -55,36 +69,42 @@ mkdir -p "$CACHE_DIR"
 # Cleanup old files in the cache
 find "$CACHE_DIR" -type f -mmin "+${CACHE_EXPIRY_MINUTES}" -exec rm -f {} \;
 
-# Check argument count
-if [ $# -lt 3 ]; then
-  echo "Usage: $(basename "$0") <youtube key> <start [hh]:mm:ss> <finish [hh]:mm:ss>"
+# Check argument count and handle accordingly
+if [ $# -lt 1 ]; then
+  echo "Usage: $(basename "$0") <youtube key> [<start [hh]:mm:ss> <finish [hh]:mm:ss>]"
   exit 1
 fi
 
+# If there are only one argument, download the whole video
+if [ $# -eq 1 ]; then
+  start_seconds=0
+  end_seconds=-1  # Set to -1 for downloading the whole clip
+  video_url="$1"
+else
+  # Convert $2 (start) and $3 (finish) to seconds if both arguments are provided
+  video_url="$1"
+  start_seconds=$(time_to_seconds "$2")
+  end_seconds=$(time_to_seconds "$3")
 
-# Convert $2 (start) and $3 (finish) to seconds
-start_seconds=$(time_to_seconds "$2")
-end_seconds=$(time_to_seconds "$3")
-
-# Check if $2 < $3
-if [ "$start_seconds" -ge "$end_seconds" ]; then
-  echo "[!] ERROR: Start time must be less than end time."
-  exit 1
+  # Check if $2 < $3
+  if [ "$start_seconds" -ge "$end_seconds" ]; then
+    echo "[!] ERROR: Start time must be less than end time."
+    exit 1
+  fi
 fi
 
 # Download the video only if it's not in the cache
-VIDEO_TITLE=$($YT_CMD --get-title "$1")
+VIDEO_TITLE=$($YT_CMD --get-title "$video_url")
 CACHE_FILE="$CACHE_DIR/$(echo "$VIDEO_TITLE" | sed 's/[^a-zA-Z0-9]/_/g').mp4"
 echo "[+] File is $(basename $CACHE_FILE)"
 if [[ -f "$CACHE_FILE" ]]; then
   echo "[+] File found in cache"
 else
   echo "[+] Downloading video to cache..."
-  if ! $YT_CMD -f mp4 -o "$CACHE_FILE" "$1" 2>&1 | tee "$LOG"; then
+  if ! $YT_CMD -f mp4 -o "$CACHE_FILE" "$video_url" 2>&1 | tee "$LOG"; then
     echo "[!] $YT_CMD failed"
     exit 1
   fi
-
 
   # Exit early if already downloaded
   if grep -q 'has already been downloaded and merged' "$LOG"; then
@@ -95,19 +115,24 @@ fi
 
 touch "$CACHE_FILE" # update modification time
 
+FILE=$(basename $CACHE_FILE .mp4)
 
-FILE=$(basename $CACHE_FILE)
+# If there were start and end times, convert them to XXhXXmXXs format
+if [ "$end_seconds" -ne -1 ]; then
+  BEGIN=$(time_to_hms_format "$2")
+  END=$(time_to_hms_format "$3")
+  OUTFILE="${FILE}--$BEGIN-$END.mp4"
+  echo "[+] Making clip from $2 to $3 on $(basename $CACHE_FILE)"
 
-# Convert start and end time to XXhXXmXXs format
-BEGIN=$(time_to_hms_format "$2")
-END=$(time_to_hms_format "$3")
+  # Run ffmpeg and capture its output
+  FFMPEG_OUTPUT=$(ffmpeg -y -i "$CACHE_FILE" -ss "$2" -to "$3" -c copy "$OUTFILE" 2>&1)
+else
+  OUTFILE="${FILE}.mp4"
+  echo "[+] Downloading the full video as '$OUTFILE'"
 
-OUTFILE="${FILE}--$BEGIN-$END.mp4"
-
-echo "[+] Making clip from $2 to $3 on $(basename $CACHE_FILE)"
-
-# Run ffmpeg and capture its output
-FFMPEG_OUTPUT=$(ffmpeg -y -i "$CACHE_FILE" -ss "$2" -to "$3" -c copy "$OUTFILE" 2>&1)
+  # Run ffmpeg to copy the whole video
+  FFMPEG_OUTPUT=$(ffmpeg -y -i "$CACHE_FILE" -c copy "$OUTFILE" 2>&1)
+fi
 
 # Check for the "Output file is empty" string in the output
 if echo "$FFMPEG_OUTPUT" | grep -q "Output file is empty"; then
