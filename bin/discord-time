@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Usage:
+# discord-time "14:30"
+# discord-time "14:30:45"
+# discord-time "2025-06-02T14:30"
+# discord-time "2025-06-02T14:30:45"
+
+input="$1"
+
+# If no input is given, use current local time
+if [[ -z "$input" ]]; then
+  input="$(date +%F)T$(date +%T)"
+fi
+
+# Expand HH:MM → HH:MM:00
+if [[ "$input" =~ ^[0-9]{2}:[0-9]{2}$ ]]; then
+  input="${input}:00"
+fi
+
+# Expand local HH:MM:SS → YYYY-MM-DDTHH:MM:SS
+if [[ "$input" =~ ^[0-9]{2}:[0-9]{2}:[0-9]{2}$ ]]; then
+  date_part=$(date +%F)
+  input="${date_part}T${input}"
+fi
+
+# Expand YYYY-MM-DDTHH:MM → YYYY-MM-DDTHH:MM:00
+if [[ "$input" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$ ]]; then
+  input="${input}:00"
+fi
+
+# At this point, $input should be ISO 8601: YYYY-MM-DDTHH:MM:SS (in local time)
+
+# Parse as local time, convert to UTC timestamp (UNIX seconds since epoch)
+timestamp=$(date --date="$input" +%s)
+
+if [[ $? -ne 0 || -z "$timestamp" ]]; then
+  echo "Invalid input format"
+  exit 1
+fi
+
+TS="<t:${timestamp}:F>"
+echo -n "$TS" | pbcopy
+echo "$TS"
