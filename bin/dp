@@ -1,0 +1,15 @@
+#!/bin/bash
+
+which displayplacer > /dev/null 2>&1
+
+[ $? -eq 0 ] || { echo "Please 'brew install displayplacer'"; exit 1; }
+
+EXTERNAL=$(displayplacer list | grep -B 10 'external' | grep 'Persistent screen id' | sed s'/Persistent screen id: //' )
+IN_BUILT=$(displayplacer list | grep -B 10 'MacBook built in' | grep 'Persistent screen id' | sed s'/Persistent screen id: //' )
+
+if [ "$EXTERNAL" = "" -o "$IN_BUILT" = "" ]; then
+    echo "Could not find two monitors. Exiting..."
+    exit 1
+fi
+
+displayplacer "id:$EXTERNAL+$IN_BUILT res:3840x2160 origin:(0,0)"

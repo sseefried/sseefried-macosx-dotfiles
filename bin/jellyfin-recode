@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Default minor axis size
+MINOR=1080
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 INPUT_FILE" >&2
+  exit 1
+fi
+
+INPUT_FILE="$1"
+
+if [[ ! -f "$INPUT_FILE" ]]; then
+  echo "Input file not found: $INPUT_FILE" >&2
+  exit 1
+fi
+
+# Split path, filename, extension
+INPUT_DIR="$(dirname "$INPUT_FILE")"
+INPUT_NAME="$(basename "$INPUT_FILE")"
+BASE="${INPUT_NAME%.*}"
+EXT="${INPUT_NAME##*.}"
+
+# Temporary output file (in same directory)
+TMP_OUTPUT="$INPUT_DIR/${BASE}.tmp.$$_.mp4"
+
+cleanup() {
+  if [[ -n "${TMP_OUTPUT:-}" && -f "$TMP_OUTPUT" ]]; then
+    rm -f "$TMP_OUTPUT"
+  fi
+}
+
+trap 'cleanup' EXIT
+trap 'cleanup; exit 1' SIGHUP SIGINT SIGTERM
+
+echo "[+] Transcoding with ffmpeg..."
+ffmpeg -y \
+  -i "$INPUT_FILE" \
+  -vf "setsar=1" \
+  -c:v libx264 \
+  -c:a aac \
+  "$TMP_OUTPUT"
+
+echo "[+] ffmpeg completed successfully."
+
+shopt -s nocasematch
+if [[ "$EXT" == "mp4" ]]; then
+  # Overwrite original .mp4
+  echo "[+] Original extension is .mp4 — overwriting in place."
+  mv -f "$TMP_OUTPUT" "$INPUT_FILE"
+  # TMP_OUTPUT no longer exists, so prevent cleanup from trying
+  TMP_OUTPUT=""
+  echo "[+] Done. Output file: $INPUT_FILE"
+else
+  # Delete original, keep new .mp4
+  FINAL_OUTPUT="$INPUT_DIR/${BASE}.mp4"
+  echo "[+] Original extension is .$EXT — deleting original and keeping $FINAL_OUTPUT"
+  rm -f "$INPUT_FILE"
+  mv "$TMP_OUTPUT" "$FINAL_OUTPUT"
+  TMP_OUTPUT=""
+  echo "[+] Done. Output file: $FINAL_OUTPUT"
+fi
+shopt -u nocasematch

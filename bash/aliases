@@ -22,6 +22,8 @@ alias mate-aliases="mate $THIS_DIR/machines/$MACHINE/aliases"
 
 # Context dependent git aliases
 
+alias code='/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code'
+
 alias ga='git-alias ga   "git add"'
 alias gds='git-alias gds "git diff --staged --ignore-space-at-eol"'
 alias ga='git-alias ga  "git add"'

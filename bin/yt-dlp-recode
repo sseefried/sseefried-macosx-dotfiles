@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# The size of the minor axis
+MINOR=1080
+
+## Use values 1080, 1440 or 2160
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 URL [MINOR e.g. 1080]" >&2
+  exit 1
+fi
+
+if [[ $# -eq 2 ]]; then
+    MINOR="$2"
+fi
+
+echo "[+] Using minor axis = $MINOR"
+
+URL="$1"
+
+# Create a temporary directory (mktemp uses mkstemp under the hood)
+TMPDIR="$(mktemp -d -t ytdlpXXXXXX)"
+
+cleanup() {
+  # Only remove the temp dir if it still exists
+  if [[ -n "${TMPDIR:-}" && -d "$TMPDIR" ]]; then
+    rm -rf "$TMPDIR"
+  fi
+}
+
+# Clean up on normal exit and most signals
+# (SIGKILL cannot be trapped)
+trap 'cleanup' EXIT
+trap 'cleanup; exit 1' SIGHUP SIGINT SIGTERM
+
+echo "Downloading into temp directory: $TMPDIR"
+
+yt-dlp \
+  --cookies-from-browser chrome \
+  -f "bv[height<=$MINOR]+ba/b[height<=$MINOR]" \
+  -o "%(channel)s - %(title)s.%(ext)s" \
+  -P "$TMPDIR" \
+  "$URL"
+
+# Find the downloaded media file
+shopt -s nullglob
+files=("$TMPDIR"/*)
+
+if (( ${#files[@]} == 0 )); then
+  echo "No files downloaded into temp dir." >&2
+  exit 1
+elif (( ${#files[@]} > 1 )); then
+  echo "More than one file found in temp dir; refusing to guess:" >&2
+  printf '  %s\n' "${files[@]}" >&2
+  exit 1
+fi
+
+input_file="${files[0]}"
+input_name="$(basename "$input_file")"
+base="${input_name%.*}"
+ext="${input_name##*.}"
+
+echo "Downloaded file: $input_name (ext: $ext)"
+
+output_file="$TMPDIR/${base}.output.mp4"
+
+echo "Transcoding with ffmpeg..."
+ffmpeg -y \
+  -i "$input_file" \
+  -vf "scale='if(gt(min(iw,ih),$MINOR),if(gt(iw,ih),-2,$MINOR),iw)':'if(gt(min(iw,ih),$MINOR),if(gt(iw,ih),$MINOR,-2),ih)',setsar=1" \
+  -c:v libx264 \
+  -c:a aac \
+  "$output_file"
+
+# Remove original downloaded file
+rm -f "$input_file"
+
+# Move final mp4 to current working directory as <FILE>.mp4
+final_name="${base} - ${MINOR}p.mp4"
+mv "$output_file" "./$final_name"
+
+echo "Done. Output file: $final_name"
