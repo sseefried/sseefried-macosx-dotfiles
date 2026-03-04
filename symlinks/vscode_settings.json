@@ -1,0 +1,26 @@
+{
+   "workbench.colorTheme": "Visual Studio Light",
+   "workbench.preferredDarkColorTheme": "Visual Studio Light",
+   "editor.reulers": [],
+   "[markdown]": {
+       "editor.rulers": [100],
+       "editor.wordWrap": "wordWrapColumn",
+       "editor.wordWrapColumn": 100
+     },
+
+
+     "cSpell.language": "en,en-AU",
+     "files.trimTrailingWhitespace": true,
+     "markdown.copyFiles.destination": {
+       "**/*": "assets/${documentBaseName}-${fileName}"
+     },
+   "editor.minimap.enabled": false,
+   "security.workspace.trust.untrustedFiles": "open",
+   "git.openRepositoryInParentFolders": "always",
+   "workbench.editor.enablePreview": false,
+   "cSpell.enabledNotifications": {
+     "Maximum Word Length Exceeded": false,
+     "Average Word Length too Long": false
+   },
+   "python.defaultInterpreterPath": "/opt/homebrew/bin/python3"
+}

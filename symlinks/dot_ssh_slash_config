@@ -3,10 +3,6 @@
 #  ControlPath    /tmp/ssh-connection-%r@%h:%p
 #  ControlPersist 2m
 
-Host *
-  UseKeyChain yes
-  AddKeysToAgent yes
-
 Compression yes
 
 IdentitiesOnly yes
@@ -77,15 +73,10 @@ Host felixstaging
   User felixdirect_staging
   Hostname shark180.anchor.net.au
 
-Host ss playspace
-  Hostname 103.4.17.30
-  User sseefried
-  Port 16066
-
 Host seanseefried
-  Hostname seanseefried.com
+  Hostname 52.63.54.138
   User sseefried
-  Port 16066
+  Port 22
 
 Host tiny-playspace
   Hostname ec2-184-72-177-235.compute-1.amazonaws.com
@@ -175,6 +166,62 @@ Host dawsonmedia-aws dmaws
   IdentityFile ~/.ssh/dawson.pem
   Hostname 52.65.79.162
 
+
+# Requires VPN to connected
+# Public IP is 52.63.111.116
+Host btl-ethx
+  User ubuntu
+  IdentityFile ~/.ssh/bittrade-ethx.pem
+  Hostname 10.0.1.198
+
+Host blochexchange bx
+  User blochex
+  IdentityFile ~/.ssh/blochexchange.pem
+  Hostname 52.65.155.138
+
+Host bress
+  User bress
+  IdentityFile ~/.ssh/bress.pem
+  Hostname 52.65.189.137
+
+Host bxfct blochx-factom blochx-factom-api
+  User blochx
+  IdentityFile ~/.ssh/blochexchange.pem
+  Hostname 52.65.122.105
+
+
+# c4.xlarge
+Host zcash-c4
+  User ubuntu
+  IdentityFile ~/.ssh/zcash.pem
+  Hostname 52.64.239.153
+
+Host zcash-c3
+  User ubuntu
+  IdentityFile ~/.ssh/zcash.pem
+  Hostname 52.64.12.164
+
+Host zcash-p2
+  User ubuntu
+  IdentityFile ~/.ssh/sseefried.pem
+  Hostname 52.87.237.182
+
+Host zcash
+  User zcash
+  Port 16022
+  Hostname 127.0.0.1
+  IdentityFile ~/.ssh/zcash_rsa
+
+# Andy Kitchen's beefy machien
+Host kronos
+   User sean
+   HostName 119.225.16.78
+   Port 2022
+
+Host vpsdime
+  User root
+  HostName 104.251.217.232
+
 Host bitcoin-nulldata bcnd svst
   User ubuntu
   HostName 13.54.229.210
@@ -185,12 +232,32 @@ Host tiny-ipfs
   Hostname 13.54.195.105
   IdentityFile ~/.ssh/bitcoin-nulldata.pem
 
-Host nixos
+Host tilthydeath seanseefried.org
   User root
-  Port 16122
-  Hostname 127.0.0.1
+  Hostname 52.63.54.138
+  IdentityFile ~/.ssh/tilthydeath-sseefried.pem
 
 Host github-da
   User git
   IdentityFile ~/.ssh/id_rsa_da
   Hostname github.com
+
+Host aeroscience aeroscience.com.au
+   User aeroscie
+   Hostname SYN231.SYD2.hostyourservices.net
+   Port 2683
+
+Host asymptotic asymp
+  User apps
+  Hostname asymptoticsecurity.com
+  IdentityFile ~/.ssh/id_rsa_asymptotic
+
+Host binary-lane
+  User root
+  Hostname contact-nuclear.bnr.la
+  IdentityFile ~/.ssh/id_binary_lane
+
+Host empty-set
+  User ess2
+  Hostname empty-set
+  

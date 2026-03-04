@@ -43,3 +43,5 @@ alias gcl='git-alias gcl "git clone"'
 alias gprom='git-alias gprom "git pull --rebase origin master"'
 alias gpom='git-alias gpom "git push origin master"'
 alias gps='git push origin && git push synology'
+
+alias wab="cd $HOME/code/whatsapp-backup && node index.js" 

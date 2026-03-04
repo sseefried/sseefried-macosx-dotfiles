@@ -11,33 +11,34 @@ SYMLINKS = [ { :file => "#{THIS_DIR}/symlinks/dot_bash_profile",     :link => "#
              { :file => "#{THIS_DIR}/symlinks/dot_emacs",            :link => "#{ENV['HOME']}/.emacs"        },
              { :file => "#{THIS_DIR}/symlinks/emacs.d",              :link => "#{ENV['HOME']}/.emacs.d"      },
              { :file => "#{THIS_DIR}/symlinks/dot_ssh_slash_config", :link => "#{ENV['HOME']}/.ssh/config"   },
-             { :file => "#{THIS_DIR}/symlinks/dot_gitconfig",        :link => "#{ENV['HOME']}/.gitconfig"   }
-           ]
+             { :file => "#{THIS_DIR}/symlinks/dot_gitconfig",        :link => "#{ENV['HOME']}/.gitconfig"   },
+             { :file => "#{THIS_DIR}/symlinks/vscode_settings.json", :link => "#{ENV['HOME']}/Library/Application Support/Code/User/settings.json"   },
+            ]
 
+puts "[+] Adding symlinks"
+errors = false
 SYMLINKS.each do |sl|
   if File.exist?(sl[:link])
     if !File.symlink?(sl[:link])
-      puts "ERROR: File #{sl[:link]} exists but it's not a symlink"
+      puts "[-] ERROR: File #{sl[:link]} exists but it's not a symlink"
       puts "       Manually resolve this conflict and re-run this script."
+      errors = true
     elsif File.readlink(sl[:link]) != sl[:file]
-      puts "ERROR: File #{sl[:link]} exists but is not symlinked into dotfiles."
+      puts "[-] ERROR: File #{sl[:link]} exists but is not symlinked into dotfiles."
       puts "       Manually resolve this conflict and re-run this script."
+      errors = true
     else
-#      puts "[+] '#{sl[:link]}'"
-#      puts "       already symlinked to"
-#      puts "    '#{sl[:file]}'"
+      puts "[+] Already symlinked: '#{sl[:link]}' -> '#{sl[:file]}'"
     end
 
   else # File doesn't exist
-#    puts "[+] Symlinking '#{sl[:link]}'"
-#    puts "      to"
-#    puts "    '#{sl[:file]}'"
+    puts "[+] Symlinking '#{sl[:link]}' -> '#{sl[:file]}'"
     system("mkdir -p #{File.dirname(sl[:link])}")
-    system("rm -f #{sl[:link]}") # Remove dead links
-    system("ln -s #{sl[:file]} #{sl[:link]}")
+    system("rm -f '#{sl[:link]}'") # Remove dead links
+    system("ln -s '#{sl[:file]}' '#{sl[:link]}'")
   end
-
 end
+if errors then exit 1 end
 
 existing_machines = Dir["#{THIS_DIR}/bash/machines/*/"].collect { |m| File.basename(m) }
 default_machine = existing_machines.member?(ENV['MACHINE']) ? ENV['MACHINE'] : existing_machines.first
